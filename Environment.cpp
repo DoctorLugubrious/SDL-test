@@ -9,11 +9,11 @@ using std::endl;
 
 Environment::Environment()
 {
-	images[KEY_DEFAULT].SetImage("gameSprites/yoSupTest.bmp");	
-	images[KEY_UP].SetImage("gameSprites/up.bmp");	
-	images[KEY_DOWN].SetImage("gameSprites/down.bmp");	
-	images[KEY_LEFT].SetImage("gameSprites/left.bmp");	
-	images[KEY_RIGHT].SetImage("gameSprites/right.bmp");	
+	images.push_back(Image("gameSprites/yoSupTest.bmp"));	
+	images.push_back(Image("gameSprites/up.bmp"));	
+	images.push_back(Image("gameSprites/down.bmp"));	
+	images.push_back(Image("gameSprites/left.bmp"));	
+	images.push_back(Image("gameSprites/right.bmp"));	
 	currentImage = images[KEY_DEFAULT].GetImage();
 	if(SDL_Init( SDL_INIT_VIDEO) < 0 )
 	{

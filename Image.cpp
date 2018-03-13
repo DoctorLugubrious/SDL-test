@@ -7,14 +7,21 @@ namespace game {
 using std::cout;
 using std::endl;
 
-Image::Image() { };
-
-void Image::SetImage(const char* file) {
+Image::Image(const char* file) {	
 	theImage = SDL_LoadBMP(file);
 	if(theImage == NULL)
 	{
 		cout << "Unable to load image! SDL Error: " << SDL_GetError() << endl;
 	}
+	filename = file;
+ };
+
+Image::Image(const Image& toCopy) {
+	theImage = SDL_LoadBMP(toCopy.filename.c_str());
+	if (theImage == NULL) {
+		cout << "Unable to load image! SDL Error" << SDL_GetError() << endl;
+	}
+	filename = toCopy.filename;
 }
 
 void Image::DisplayImage(SDL_Surface** screenSurface, int width, int height) {

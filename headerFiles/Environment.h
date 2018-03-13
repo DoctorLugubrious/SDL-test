@@ -28,7 +28,7 @@ private:
 	SDL_Surface* currentImage;
 	SDL_Surface* screenSurface;
 	SDL_Window* window;
-	Image images[NUM_KEYS];
+	std::vector<Image> images;
 public:
 	Environment();
 	void gameLoop();
