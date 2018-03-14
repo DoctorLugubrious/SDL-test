@@ -2,7 +2,8 @@
 #include <SDL2/SDL.h>
 #include <string>
 namespace game{
-
+//The image class wraps an SDL surface with function to display the image and has a constructor,
+//copy constructor, and desctructor to make it easier to use.
 class Image {
 public:
 	Image(const char* file);

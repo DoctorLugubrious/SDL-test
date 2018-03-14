@@ -7,6 +7,7 @@ namespace game {
 using std::cout;
 using std::endl;
 
+//Environment default constructor
 Environment::Environment()
 {
 	images.push_back(Image("gameSprites/yoSupTest.bmp"));	
@@ -14,7 +15,7 @@ Environment::Environment()
 	images.push_back(Image("gameSprites/down.bmp"));	
 	images.push_back(Image("gameSprites/left.bmp"));	
 	images.push_back(Image("gameSprites/right.bmp"));	
-	currentImage = images[KEY_DEFAULT].GetImage();
+
 	if(SDL_Init( SDL_INIT_VIDEO) < 0 )
 	{
 		cout <<"SDL could not initialize! SDL_Error: " << SDL_GetError() << endl;
@@ -31,7 +32,7 @@ Environment::Environment()
 		else
 		{
 			this->screenSurface = SDL_GetWindowSurface(window);
-			SDL_BlitSurface(currentImage, NULL, screenSurface, NULL);
+			images.at(KEY_DEFAULT).DisplayImage(&screenSurface, SCREEN_WIDTH, SCREEN_HEIGHT);
 			SDL_UpdateWindowSurface(window); 
 	
 		}
@@ -40,6 +41,7 @@ Environment::Environment()
 	
 }
 
+//runs the game loop
 void Environment::gameLoop() {
 	bool quit = false;
 	SDL_Event event;
@@ -80,6 +82,7 @@ void Environment::gameLoop() {
 	}	
 }
 
+//No memory leaks! here's the destructor
 Environment::~Environment() {
 	
 	SDL_DestroyWindow(window);

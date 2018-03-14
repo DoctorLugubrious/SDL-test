@@ -1,7 +1,9 @@
 #ifndef HEADER_DOT_H_
 #define HEADER_DOT_H_
 
-/*Class Declaration of the Environment class*/
+/*Class Declaration of the Environment class, 
+which runs the game loop.
+*/
 
 //Using SDL and standard IO
 #include <SDL2/SDL.h>
@@ -25,12 +27,12 @@ private:
 	static const int SCREEN_WIDTH = 640;
 	static const int SCREEN_HEIGHT = 480;
 	
-	SDL_Surface* currentImage;
 	SDL_Surface* screenSurface;
 	SDL_Window* window;
 	std::vector<Image> images;
 public:
 	Environment();
+	//run the game loop
 	void gameLoop();
 	~Environment();
 };

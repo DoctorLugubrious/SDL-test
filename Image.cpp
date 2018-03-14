@@ -6,7 +6,7 @@ namespace game {
 
 using std::cout;
 using std::endl;
-
+//Constructs an image given the filename of the image 
 Image::Image(const char* file) {	
 	theImage = SDL_LoadBMP(file);
 	if(theImage == NULL)
@@ -15,7 +15,7 @@ Image::Image(const char* file) {
 	}
 	filename = file;
  };
-
+//copy constructor
 Image::Image(const Image& toCopy) {
 	theImage = SDL_LoadBMP(toCopy.filename.c_str());
 	if (theImage == NULL) {
@@ -23,7 +23,8 @@ Image::Image(const Image& toCopy) {
 	}
 	filename = toCopy.filename;
 }
-
+//given a surface to display on and a size, optimizes the image for that surface
+//and displays it
 void Image::DisplayImage(SDL_Surface** screenSurface, int width, int height) {
 	if (theImage == NULL) { return; }
 	theImage = SDL_ConvertSurface(theImage, (*screenSurface)->format, 0);
@@ -38,7 +39,7 @@ void Image::DisplayImage(SDL_Surface** screenSurface, int width, int height) {
 	imageArea.h = height;
 	SDL_BlitScaled(theImage, NULL, *screenSurface, &imageArea);
 }
-
+//if image not null, deallocate memory
 Image::~Image() {
 	if(theImage != NULL) {
 		SDL_FreeSurface(theImage);
