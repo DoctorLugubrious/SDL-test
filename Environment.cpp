@@ -10,11 +10,11 @@ using std::endl;
 //Environment default constructor
 Environment::Environment()
 {
-	images.push_back(Image("gameSprites/yoSupTest.bmp"));	
-	images.push_back(Image("gameSprites/up.bmp"));	
-	images.push_back(Image("gameSprites/down.bmp"));	
-	images.push_back(Image("gameSprites/left.bmp"));	
-	images.push_back(Image("gameSprites/right.bmp"));	
+	images.push_back(Image("gameSprites/neutral.png"));	
+	images.push_back(Image("gameSprites/up.png"));	
+	images.push_back(Image("gameSprites/down.png"));	
+	images.push_back(Image("gameSprites/left.png"));	
+	images.push_back(Image("gameSprites/right.png"));	
 
 	if(SDL_Init( SDL_INIT_VIDEO) < 0 )
 	{

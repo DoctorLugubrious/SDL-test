@@ -1,5 +1,6 @@
 //Using SDL and standard IO
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 #include "Image.h"
 namespace game { 
@@ -7,8 +8,13 @@ namespace game {
 using std::cout;
 using std::endl;
 //Constructs an image given the filename of the image 
-Image::Image(const char* file) {	
-	theImage = SDL_LoadBMP(file);
+Image::Image(const char* file) {
+	int imageFlag = IMG_INIT_PNG;
+	if (!(IMG_Init(imageFlag) & imageFlag)) {
+		cout << "Image error: " << IMG_GetError() << endl;
+		return;
+	}	
+	theImage = IMG_Load(file);
 	if(theImage == NULL)
 	{
 		cout << "Unable to load image! SDL Error: " << SDL_GetError() << endl;
@@ -17,9 +23,14 @@ Image::Image(const char* file) {
  };
 //copy constructor
 Image::Image(const Image& toCopy) {
-	theImage = SDL_LoadBMP(toCopy.filename.c_str());
+	int imageFlag = IMG_INIT_PNG;
+	if (!(IMG_Init(imageFlag) & imageFlag)) {
+		cout << "Image error: " << IMG_GetError() << endl;
+		return;
+	}
+	theImage = IMG_Load(toCopy.filename.c_str());
 	if (theImage == NULL) {
-		cout << "Unable to load image! SDL Error" << SDL_GetError() << endl;
+		cout << "Unable to load image! SDL Error: " << SDL_GetError() << endl;
 	}
 	filename = toCopy.filename;
 }

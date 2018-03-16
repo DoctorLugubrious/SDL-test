@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -I ./headerFiles -Wall -c  
-LINKER_FLAGS = -lSDL2 -o
+LINKER_FLAGS = -lSDL2 -lSDL2_image -o
 EXECUTABLE_NAME = executable
 OBJS = source.o Image.o Environment.o
 
