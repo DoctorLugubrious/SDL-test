@@ -8,45 +8,22 @@ using std::cout;
 using std::endl;
 
 //Environment default constructor
-Environment::Environment()
+Environment::Environment(): mainWindow(), screenRenderer(*mainWindow)
 {
-	images.push_back(Image("gameSprites/neutral.png"));	
-	images.push_back(Image("gameSprites/up.png"));	
-	images.push_back(Image("gameSprites/down.png"));	
-	images.push_back(Image("gameSprites/left.png"));	
-	images.push_back(Image("gameSprites/right.png"));	
 
-	if(SDL_Init( SDL_INIT_VIDEO) < 0 )
-	{
-		cout <<"SDL could not initialize! SDL_Error: " << SDL_GetError() << endl;
-	}
-	else
-	{	
-		this->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
-		 SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		if(window == NULL)
-		{
-			cout << "Window could not be created! SDL_Error: " <<
-			 SDL_GetError() << endl;
-		}
-		else
-		{
-			this->screenSurface = SDL_GetWindowSurface(window);
-			images.at(KEY_DEFAULT).DisplayImage(&screenSurface, SCREEN_WIDTH, SCREEN_HEIGHT);
-			SDL_UpdateWindowSurface(window); 
-	
-		}
-	}
+	images.push_back(Texture("gameSprites/neutral.png", *screenRenderer));	
+	images.push_back(Texture("gameSprites/up.png", *screenRenderer));	
+	images.push_back(Texture("gameSprites/down.png", *screenRenderer));	
+	images.push_back(Texture("gameSprites/left.png", *screenRenderer));	
+	images.push_back(Texture("gameSprites/right.png", *screenRenderer));	
 
-	
+	images[KEY_DEFAULT].Display();	
 }
 
 //runs the game loop
 void Environment::gameLoop() {
 	bool quit = false;
 	SDL_Event event;
-
-	
 	while (!quit) {
 		while (SDL_PollEvent(&event) != 0) {
 			if (event.type == SDL_QUIT) {
@@ -54,39 +31,24 @@ void Environment::gameLoop() {
 			}
 			else if (event.type == SDL_KEYDOWN) {
 				switch(event.key.keysym.sym) {
-					case SDLK_UP:
-					images[KEY_UP].DisplayImage(&screenSurface, SCREEN_WIDTH,
-						SCREEN_HEIGHT);
+					case SDLK_UP: images[KEY_UP].Display();
 					break;
-					case SDLK_DOWN:
-					images[KEY_DOWN].DisplayImage(&screenSurface, SCREEN_WIDTH,
-						SCREEN_HEIGHT);
+					case SDLK_DOWN: images[KEY_DOWN].Display();
 					break;
-					case SDLK_LEFT:
-					images[KEY_LEFT].DisplayImage(&screenSurface, SCREEN_WIDTH,
-						SCREEN_HEIGHT);
+					case SDLK_LEFT: images[KEY_LEFT].Display();
 					break;
-					case SDLK_RIGHT:
-					images[KEY_RIGHT].DisplayImage(&screenSurface, SCREEN_WIDTH,
-						SCREEN_HEIGHT);
+					case SDLK_RIGHT: images[KEY_RIGHT].Display();
 					break;
-					default:
-					images[KEY_DEFAULT].DisplayImage(&screenSurface, SCREEN_WIDTH,
-						SCREEN_HEIGHT);
+					default: images[KEY_DEFAULT].Display();
 					break;
 				}
 			}
-		}
-		SDL_UpdateWindowSurface(window);
-		
+		}	
 	}	
 }
 
 //No memory leaks! here's the destructor
 Environment::~Environment() {
-	
-	SDL_DestroyWindow(window);
-	window = NULL;
 	SDL_Quit();
 }
 }

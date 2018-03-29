@@ -43,6 +43,7 @@ void Image::DisplayImage(SDL_Surface** screenSurface, int width, int height) {
 		cout << "Unable to optimize image!" << SDL_GetError() << endl;
 		return;
 	}
+	
 	SDL_Rect imageArea;
 	imageArea.x = 0;
 	imageArea.y = 0;

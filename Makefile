@@ -1,8 +1,8 @@
 CC = g++
-CFLAGS = -I ./headerFiles -Wall -c  
+CFLAGS = -I ./headerFiles -Wall -c -g 
 LINKER_FLAGS = -lSDL2 -lSDL2_image -o
 EXECUTABLE_NAME = executable
-OBJS = source.o Image.o Environment.o
+OBJS = source.o Image.o Environment.o Texture.o Renderer.o Window.o
 
 .PHONY:
 all: $(OBJS)
