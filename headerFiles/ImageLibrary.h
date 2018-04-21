@@ -17,6 +17,7 @@ class ImageLibrary {
 public:
 	ImageLibrary();
 	void Display(const char* name);
+	void Display(const char* name, int xPos, int yPos);
 private:
 	std::unordered_map<std::string, Texture> images;
 	Window mainWindow;

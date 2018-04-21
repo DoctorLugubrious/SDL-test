@@ -44,4 +44,13 @@ namespace game {
 		images[name].Display(0,windowHeight - imageHeight);
 	}
 
+	void ImageLibrary::Display(const char* name, int xPos, int yPos) {
+		if (images.count(name) == 0) {
+			name = "NEUTRAL";
+		}
+		SDL_RenderClear(*screenRenderer);
+		images["BACKGROUND"].Display(0,0);
+		images[name].Display(xPos, (windowHeight - imageHeight) + yPos);
+	}
+
 }
