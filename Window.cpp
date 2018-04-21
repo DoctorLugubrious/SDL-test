@@ -14,6 +14,9 @@ Window::Window(): theWindow(NULL) {
 		cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << endl;
 	}
 	else {
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
+			cout << "Linear texture filtering won't work son." << endl;
+		}
 		this->theWindow = SDL_CreateWindow("Platformer", SDL_WINDOWPOS_UNDEFINED,
 		  SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if(theWindow == NULL) {

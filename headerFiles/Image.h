@@ -10,6 +10,7 @@ public:
 	Image(const Image& toCopy);
 	void DisplayImage(SDL_Surface** screenSurface, int width, int height);
 	SDL_Surface* GetImage() { return theImage; };
+	SDL_Surface* operator*() { return theImage; };
 	~Image();
 private:
 	SDL_Surface* theImage;

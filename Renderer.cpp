@@ -15,7 +15,7 @@ namespace game {
 				cout << "Renderer could not be created: " << SDL_GetError() << endl;
 			}
 			else {	
-				SDL_SetRenderDrawColor (theRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_SetRenderDrawColor (theRenderer, 0xFF, 0xFF, 0xFF, 0x00);
 			}
 		}
 	}

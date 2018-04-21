@@ -8,16 +8,10 @@ using std::cout;
 using std::endl;
 
 //Environment default constructor
-Environment::Environment(): mainWindow(), screenRenderer(*mainWindow)
-{
-
-	images.push_back(Texture("gameSprites/neutral.png", *screenRenderer));	
-	images.push_back(Texture("gameSprites/up.png", *screenRenderer));	
-	images.push_back(Texture("gameSprites/down.png", *screenRenderer));	
-	images.push_back(Texture("gameSprites/left.png", *screenRenderer));	
-	images.push_back(Texture("gameSprites/right.png", *screenRenderer));	
-
-	images[KEY_DEFAULT].Display();	
+Environment::Environment():
+	 player(&images),
+	 images() 
+{	
 }
 
 //runs the game loop
@@ -25,21 +19,26 @@ void Environment::gameLoop() {
 	bool quit = false;
 	SDL_Event event;
 	while (!quit) {
-		while (SDL_PollEvent(&event) != 0) {
+		while (SDL_PollEvent(&event) != 0) {	
 			if (event.type == SDL_QUIT) {
 				quit = true;
 			}
 			else if (event.type == SDL_KEYDOWN) {
 				switch(event.key.keysym.sym) {
-					case SDLK_UP: images[KEY_UP].Display();
+					case SDLK_UP:
+						player.Jump();
 					break;
-					case SDLK_DOWN: images[KEY_DOWN].Display();
+					case SDLK_LEFT:
+						player.MoveLeft();
 					break;
-					case SDLK_LEFT: images[KEY_LEFT].Display();
+					case SDLK_RIGHT:
+						player.MoveRight();
 					break;
-					case SDLK_RIGHT: images[KEY_RIGHT].Display();
+					case SDLK_DOWN:
+						player.Duck();
 					break;
-					default: images[KEY_DEFAULT].Display();
+					default:
+						player.Idle();
 					break;
 				}
 			}
