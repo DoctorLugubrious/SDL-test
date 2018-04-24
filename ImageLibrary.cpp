@@ -39,8 +39,6 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "BACKGROUND";
 		}
-		SDL_RenderClear(*screenRenderer);
-		images["BACKGROUND"].Display(0,0);
 		images[name].Display(0,windowHeight - imageHeight);
 	}
 
@@ -48,9 +46,11 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "NEUTRAL";
 		}
-		SDL_RenderClear(*screenRenderer);
-		images["BACKGROUND"].Display(0,0);
 		images[name].Display(xPos, (windowHeight - imageHeight) + yPos);
+	}
+
+	void ImageLibrary::Background() {
+		images["BACKGROUND"].Display(0,0);
 	}
 
 }

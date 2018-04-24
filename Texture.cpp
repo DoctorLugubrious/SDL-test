@@ -58,7 +58,6 @@ namespace game {
 	void Texture::Display(int xPos, int yPos) {
 		SDL_Rect clip = { xPos, yPos, xSize, ySize };
 
-		SDL_SetRenderDrawColor(thisRenderer, 0x55, 0x55, 0x00, 0xff);
 		SDL_RenderCopy(thisRenderer, theTexture, NULL, &clip);
 		SDL_RenderPresent(thisRenderer);
 	}

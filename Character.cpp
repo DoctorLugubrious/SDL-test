@@ -1,38 +1,90 @@
 #include "Character.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 namespace game {
 	const int X_LIMIT = 620;
 	const int Y_LIMIT = 480;
 	const int X_MIN = -50;
+	const int X_ACCELERATION = 1;
+	const int Y_ACCELERATION = 20;
+
+	const int X_VELOCITY_MAX = 5;
+	const int Y_VELOCITY_MAX = 5;
+	
+	const int GRAVITY = 1;
 	
 	Character::Character(ImageLibrary* init) :
 		xPos (0),
 		yPos (0),
+		xVelocity(0),
+		yVelocity(0),
 		width (60),
 		height (48),
-		sprites(init) {};
+		sprites(init),
+		currentSprite("NEUTRAL"),
+		jump(false)
+		 {};
 
 	void Character::MoveRight() {
-		xPos += 10;
-		if (xPos > X_LIMIT) { xPos = X_MIN; }
-		sprites->Display("RIGHT", xPos, yPos);
+		if (xVelocity < 0) {
+			xVelocity = 0;
+		}
+		if (xVelocity > X_VELOCITY_MAX) {
+			xVelocity = X_VELOCITY_MAX;
+		}
+		xVelocity += X_ACCELERATION;
+		currentSprite = "RIGHT";
 	}
 
 	void Character::MoveLeft() {
-		xPos -= 10;
-		if (xPos < X_MIN) { xPos = X_LIMIT; }
-		sprites->Display("LEFT", xPos, yPos);
+		if (xVelocity > 0) {
+			xVelocity = 0;
+		}
+		if (xVelocity < -X_VELOCITY_MAX) {
+			xVelocity = -X_VELOCITY_MAX;
+		}
+		xVelocity -= X_ACCELERATION;
+		currentSprite = "LEFT";
 	}
 
 	void Character::Jump() {
-		sprites->Display("UP", xPos, yPos);
+		if (!jump) {
+			yVelocity += Y_ACCELERATION;
+			jump = true;
+		}
+
+		currentSprite = "UP";
 	}
 	
 	void Character::Duck() {
-		sprites->Display("DOWN", xPos, yPos);
+		xVelocity = 0;
+		yVelocity -= GRAVITY;
+		currentSprite = "DOWN";
 	}
 	
-	void Character::Idle() {
-		sprites->Display("NEUTRAL", xPos, yPos);
+	void Character::Idle() {	
+		xVelocity = 0;
+		yVelocity = 0;
+		currentSprite = "NEUTRAL";
+	}
+	
+	void Character::UpdatePosition() {
+		yVelocity -= GRAVITY;
+		xPos += xVelocity;
+		yPos -= yVelocity;
+		if (xPos > X_LIMIT) { xPos = X_MIN; }
+		if (xPos < X_MIN) { xPos = X_LIMIT; }
+		if (yPos > 0) {
+			yPos = 0;
+			yVelocity = 0;
+			jump = false;
+		 }
+	}
+
+	void Character::Display() {
+		sprites->Display(currentSprite.c_str(), xPos, yPos);
 	}
 }

@@ -18,10 +18,23 @@ Environment::Environment():
 void Environment::gameLoop() {
 	bool quit = false;
 	SDL_Event event;
+	images.Background();
+	player.Display();	
 	while (!quit) {
+		SDL_Delay(1);
+		images.Background();
+		player.Display();	
 		while (SDL_PollEvent(&event) != 0) {	
 			if (event.type == SDL_QUIT) {
 				quit = true;
+			}
+			else if (event.type == SDL_KEYUP) {
+				if (
+				event.key.keysym.sym == SDLK_LEFT
+				|| event.key.keysym.sym == SDLK_RIGHT
+				) {
+					player.Idle();
+				}
 			}
 			else if (event.type == SDL_KEYDOWN) {
 				switch(event.key.keysym.sym) {
@@ -42,7 +55,8 @@ void Environment::gameLoop() {
 					break;
 				}
 			}
-		}	
+		}
+		player.UpdatePosition();
 	}	
 }
 
