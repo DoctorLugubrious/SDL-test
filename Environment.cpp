@@ -21,9 +21,9 @@ void Environment::gameLoop() {
 	images.Background();
 	player.Display();	
 	while (!quit) {
-		SDL_Delay(1);
 		images.Background();
 		player.Display();	
+		SDL_Delay(1);
 		while (SDL_PollEvent(&event) != 0) {	
 			if (event.type == SDL_QUIT) {
 				quit = true;

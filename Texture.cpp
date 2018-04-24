@@ -59,7 +59,6 @@ namespace game {
 		SDL_Rect clip = { xPos, yPos, xSize, ySize };
 
 		SDL_RenderCopy(thisRenderer, theTexture, NULL, &clip);
-		SDL_RenderPresent(thisRenderer);
 	}
 
 	//deallocates memory for the texture
