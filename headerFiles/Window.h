@@ -18,8 +18,6 @@ public:
 	SDL_Window*& operator*() { return theWindow; };
 	~Window();
 private:
-	static const int SCREEN_WIDTH = 640;
-	static const int SCREEN_HEIGHT = 480;
 	SDL_Window* theWindow;
 };
 

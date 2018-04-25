@@ -18,6 +18,7 @@ public:
 	ImageLibrary();
 	void Display(const char* name);
 	void Display(const char* name, int xPos, int yPos);
+	void Render();
 	void Background();
 private:
 	std::unordered_map<std::string, Texture> images;

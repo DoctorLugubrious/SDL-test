@@ -1,6 +1,7 @@
 #ifndef WIDNOW_DOT_H_
 #define WINDOW_DOT_H_
 
+#include "constants.h"
 #include "Window.h"
 #include <iostream>
 using std::cout;
@@ -18,7 +19,7 @@ Window::Window(): theWindow(NULL) {
 			cout << "Linear texture filtering won't work son." << endl;
 		}
 		this->theWindow = SDL_CreateWindow("Platformer", SDL_WINDOWPOS_UNDEFINED,
-		  SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		  SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 		if(theWindow == NULL) {
 			cout << "Window could not be created! SDL_Error: "
 				<< SDL_GetError() << endl;
@@ -33,7 +34,7 @@ Window::Window(const Window& toCopy): theWindow(NULL) {
 	}
 	else {
 		this->theWindow = SDL_CreateWindow("Platformer", SDL_WINDOWPOS_UNDEFINED,
-		  SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		  SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 		if(theWindow == NULL) {
 			cout << "Window could not be created! SDL_Error: "
 				<< SDL_GetError() << endl;

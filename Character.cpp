@@ -1,21 +1,15 @@
 #include "Character.h"
-
+#include "constants.h"
 #include <iostream>
 using std::cout;
 using std::endl;
 
 namespace game {
-	const int X_LIMIT = 620;
-	const int Y_LIMIT = 480;
-	const int X_MIN = -50;
-	const int X_ACCELERATION = 1;
-	const int Y_ACCELERATION = 20;
 
-	const int X_VELOCITY_MAX = 5;
-	const int Y_VELOCITY_MAX = 5;
-	
-	const int GRAVITY = 1;
-	
+	/*
+	 *The Character class needs an ImageLibrary pointer to
+	 *display images, but other than that, takes care of itself.
+	 */ 	
 	Character::Character(ImageLibrary* init) :
 		xPos (0),
 		yPos (0),
@@ -28,6 +22,7 @@ namespace game {
 		jump(false)
 		 {};
 
+	//moves the character right
 	void Character::MoveRight() {
 		if (xVelocity < 0) {
 			xVelocity = 0;
@@ -39,6 +34,7 @@ namespace game {
 		currentSprite = "RIGHT";
 	}
 
+	//moves the character left
 	void Character::MoveLeft() {
 		if (xVelocity > 0) {
 			xVelocity = 0;
@@ -50,6 +46,7 @@ namespace game {
 		currentSprite = "LEFT";
 	}
 
+	//lets the character jump
 	void Character::Jump() {
 		if (!jump) {
 			yVelocity += Y_ACCELERATION;
@@ -59,18 +56,21 @@ namespace game {
 		currentSprite = "UP";
 	}
 	
+	//ducks the character, which makes them fall faster
 	void Character::Duck() {
 		xVelocity = 0;
 		yVelocity -= GRAVITY;
 		currentSprite = "DOWN";
 	}
 	
+	//Call this when you stop moving left or right
 	void Character::Idle() {	
 		xVelocity = 0;
 		yVelocity = 0;
 		currentSprite = "NEUTRAL";
 	}
 	
+	//updates the positions and velocities of the character for one frame
 	void Character::UpdatePosition() {
 		yVelocity -= GRAVITY;
 		xPos += xVelocity;
@@ -84,6 +84,7 @@ namespace game {
 		 }
 	}
 
+	//Displays the current sprite
 	void Character::Display() {
 		sprites->Display(currentSprite.c_str(), xPos, yPos);
 	}

@@ -1,6 +1,11 @@
 #include "ImageLibrary.h"
 #include <string>
 namespace game {
+
+	/*
+	 * The character class is the playable character for the game
+	 */
+
 	class Character {
 	public:
 		Character(ImageLibrary* init);

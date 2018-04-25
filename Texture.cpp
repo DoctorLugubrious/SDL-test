@@ -58,7 +58,7 @@ namespace game {
 	void Texture::Display(int xPos, int yPos) {
 		SDL_Rect clip = { xPos, yPos, xSize, ySize };
 
-		SDL_RenderCopy(thisRenderer, theTexture, NULL, &clip);
+		SDL_RenderCopyEx(thisRenderer, theTexture, NULL, &clip, 0.0, NULL, SDL_FLIP_NONE);
 	}
 
 	//deallocates memory for the texture

@@ -22,7 +22,8 @@ void Environment::gameLoop() {
 	player.Display();	
 	while (!quit) {
 		images.Background();
-		player.Display();	
+		player.Display();
+		images.Render();	
 		SDL_Delay(1);
 		while (SDL_PollEvent(&event) != 0) {	
 			if (event.type == SDL_QUIT) {
@@ -60,7 +61,7 @@ void Environment::gameLoop() {
 	}	
 }
 
-//No memory leaks! here's the destructor
+//Quits SDL
 Environment::~Environment() {
 	SDL_Quit();
 }

@@ -2,6 +2,10 @@
 
 using game::Environment;
 
+/*
+ * Runs the game
+ */
+
 int main(int argc, char* argv[]) {
 	Environment gameSpace;
 	gameSpace.gameLoop();	
