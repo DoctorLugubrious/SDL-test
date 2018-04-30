@@ -12,6 +12,8 @@ public:
 	Texture(const char* filename, SDL_Renderer*& renderer, size_t width, size_t height);
 	Texture(const Texture& toCopy);
 	void Display(int xPos, int yPos);
+	void Display(int xPos, int yPos, SDL_Rect& area);
+	void DisplayFlipped(int xPos, int yPos, SDL_Rect& area);
 	void init(const char* filename);
 	void operator=(const Texture& toCopy) {
 		thisRenderer = toCopy.thisRenderer;

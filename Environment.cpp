@@ -24,7 +24,7 @@ void Environment::gameLoop() {
 		images.Background();
 		player.Display();
 		images.Render();	
-		SDL_Delay(1);
+		SDL_Delay(10);
 		while (SDL_PollEvent(&event) != 0) {	
 			if (event.type == SDL_QUIT) {
 				quit = true;
@@ -33,6 +33,7 @@ void Environment::gameLoop() {
 				if (
 				event.key.keysym.sym == SDLK_LEFT
 				|| event.key.keysym.sym == SDLK_RIGHT
+				|| event.key.keysym.sym == SDLK_DOWN
 				) {
 					player.Idle();
 				}

@@ -1,3 +1,5 @@
+#ifndef IMAGE_DOT_H_
+#define IMAGE_DOT_H
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <string>
@@ -18,3 +20,5 @@ private:
 };
 
 }
+
+#endif

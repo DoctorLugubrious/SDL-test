@@ -60,6 +60,20 @@ namespace game {
 
 		SDL_RenderCopyEx(thisRenderer, theTexture, NULL, &clip, 0.0, NULL, SDL_FLIP_NONE);
 	}
+	
+	//displays the texture on the current surface
+	void Texture::Display(int xPos, int yPos, SDL_Rect& area) {
+		SDL_Rect clip = { xPos, yPos, area.w, area.h };
+
+		SDL_RenderCopyEx(thisRenderer, theTexture, &area, &clip, 0.0, NULL, SDL_FLIP_NONE);
+	}
+
+	//displays the texture on the current surface
+	void Texture::DisplayFlipped(int xPos, int yPos, SDL_Rect& area) {
+		SDL_Rect clip = { xPos, yPos, area.w, area.h };
+
+		SDL_RenderCopyEx(thisRenderer, theTexture, &area, &clip, 0.0, NULL, SDL_FLIP_HORIZONTAL);
+	}
 
 	//deallocates memory for the texture
 	Texture::~Texture() {

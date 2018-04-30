@@ -1,5 +1,5 @@
-#ifndef HEADER_DOT_H_
-#define HEADER_DOT_H_
+#ifndef ENVIRONMENT_DOT_H_
+#define ENVIRONMENT_DOT_H_
 
 /*Class Declaration of the Environment class, 
 which runs the game loop.
@@ -9,7 +9,7 @@ which runs the game loop.
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <string>
-#include "Character.h"
+#include "AnimatedCharacter.h"
 #include "ImageLibrary.h"
 
 namespace game {
@@ -17,7 +17,7 @@ namespace game {
 
 class Environment {
 private:
-	Character player;
+	AnimCharacter player;
 	ImageLibrary images;
 public:
 	Environment();

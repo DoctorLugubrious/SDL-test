@@ -10,7 +10,7 @@ namespace game {
 	//code.	
 	void Renderer::init() {
 		if (window != NULL) {
-			theRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			theRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (theRenderer == NULL) {
 				cout << "Renderer could not be created: " << SDL_GetError() << endl;
 			}

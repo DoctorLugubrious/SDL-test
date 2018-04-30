@@ -18,6 +18,8 @@ public:
 	ImageLibrary();
 	void Display(const char* name);
 	void Display(const char* name, int xPos, int yPos);
+	void Display(const char* name, int xPos, int yPos, SDL_Rect& area);
+	void DisplayFlipped(const char* name, int xPos, int yPos, SDL_Rect& area);
 	void Render();
 	void Background();
 private:

@@ -13,19 +13,9 @@ namespace game {
 	 * It also displays the background when initialized 
 	 */
 	ImageLibrary::ImageLibrary(): mainWindow(), screenRenderer(*mainWindow) {
-		images["UP"] = Texture("gameSprites/up.png", *screenRenderer, 
-			IMAGE_WIDTH, IMAGE_HEIGHT);	
-		images["DOWN"] = Texture("gameSprites/down.png", *screenRenderer,	
-			IMAGE_WIDTH, IMAGE_HEIGHT);	
-		images["LEFT"] = Texture("gameSprites/left.png", *screenRenderer,	
-			IMAGE_WIDTH, IMAGE_HEIGHT);	
-		images["RIGHT"]= Texture("gameSprites/right.png", *screenRenderer,	
-			IMAGE_WIDTH, IMAGE_HEIGHT);	
-		images["NEUTRAL"]= Texture("gameSprites/neutral.png", *screenRenderer,	
-			IMAGE_WIDTH, IMAGE_HEIGHT);	
 		images["BACKGROUND"] = Texture("gameSprites/TestBackground.png", *screenRenderer, 
 			WINDOW_WIDTH, WINDOW_HEIGHT);	
-	images["BACKGROUND"].Display(0, 0);
+		images["LUCARIO"] = Texture("gameSprites/lucarioGrid.png", *screenRenderer, 0, 0);	
 	}	
 
 	/*
@@ -36,7 +26,7 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "BACKGROUND";
 		}
-		images[name].Display(0,WINDOW_HEIGHT - IMAGE_HEIGHT);
+		images[name].Display(0, 0);
 	}
 
 	/*
@@ -47,9 +37,29 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "NEUTRAL";
 		}
-		images[name].Display(xPos, (WINDOW_HEIGHT - IMAGE_HEIGHT) + yPos);
+		images[name].Display(xPos, WINDOW_HEIGHT + yPos - SPRITE_HEIGHT);
 	}
 
+	/*
+	 * Displays the image with the given name at the
+	 * location given (xPos, yPos)
+	 */
+	void ImageLibrary::Display(const char* name, int xPos, int yPos, SDL_Rect& area) {
+		if (images.count(name) == 0) {
+			name = "LUCARIO";
+		}
+		images[name].Display(xPos, WINDOW_HEIGHT + yPos - SPRITE_HEIGHT, area);
+	}
+	/*
+	 * Displays the image with the given name at the
+	 * location given (xPos, yPos)
+	 */
+	void ImageLibrary::DisplayFlipped(const char* name, int xPos, int yPos, SDL_Rect& area) {
+		if (images.count(name) == 0) {
+			name = "LUCARIO";
+		}
+		images[name].DisplayFlipped(xPos, WINDOW_HEIGHT + yPos - SPRITE_HEIGHT, area);
+	}
 	/*
 	 * Displays the background
 	 */
