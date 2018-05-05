@@ -1,7 +1,9 @@
 //Using SDL and standard IO
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include "Environment.h"
+
 namespace game { 
 
 using std::cout;
@@ -11,7 +13,12 @@ using std::endl;
 Environment::Environment():
 	 player(&images),
 	 images() 
-{	
+{
+	 //Initialize SDL_ttf
+	if( TTF_Init() == -1 )
+	{
+	    cout<< "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
+	}	
 }
 
 //runs the game loop

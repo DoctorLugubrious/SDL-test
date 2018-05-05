@@ -16,26 +16,32 @@ namespace game {
 		thisRenderer(NULL), 
 		filename(""),
 		xSize(0),
-		ySize(0)
+		ySize(0),
+		xPos(0),
+		yPos(0)
  	{}
 	
 	//parameterized constructor that takes a filename and a renderer to render to
-	Texture::Texture(const char* initFilename, SDL_Renderer*& renderer, size_t width, size_t height):
-		 theTexture(NULL),
-		 thisRenderer(renderer),
-		 filename(initFilename),
-		 xSize(width),
-		 ySize(height) {
+	Texture::Texture(const char* initFilename, SDL_Renderer*& renderer, SDL_Rect location):
+		theTexture(NULL),
+		thisRenderer(renderer),
+		filename(initFilename),
+		xSize(location.w),
+		ySize(location.h),
+		xPos(location.x),
+		yPos(location.y) {
 		this->init(filename.c_str());
 	}
 
 	//copy constructor
 	Texture::Texture(const Texture& toCopy):
-		 theTexture(NULL),
-		 thisRenderer(toCopy.thisRenderer),
-		 filename(toCopy.filename),
-		 xSize(toCopy.xSize),
-		 ySize(toCopy.ySize) {
+		theTexture(NULL),
+		thisRenderer(toCopy.thisRenderer),
+		filename(toCopy.filename),
+		xSize(toCopy.xSize),
+		ySize(toCopy.ySize),
+		xPos(toCopy.xPos),
+		yPos(toCopy.yPos) {
 		if (filename != "") {
 			this->init(filename.c_str());
 		}
@@ -55,24 +61,29 @@ namespace game {
 	}
 
 	//displays the texture on the current surface
-	void Texture::Display(int xPos, int yPos) {
+	void Texture::Display() {
 		SDL_Rect clip = { xPos, yPos, xSize, ySize };
 
 		SDL_RenderCopyEx(thisRenderer, theTexture, NULL, &clip, 0.0, NULL, SDL_FLIP_NONE);
 	}
 	
 	//displays the texture on the current surface
-	void Texture::Display(int xPos, int yPos, SDL_Rect& area) {
+	void Texture::Display(SDL_Rect& area) {
 		SDL_Rect clip = { xPos, yPos, area.w, area.h };
 
 		SDL_RenderCopyEx(thisRenderer, theTexture, &area, &clip, 0.0, NULL, SDL_FLIP_NONE);
 	}
 
 	//displays the texture on the current surface
-	void Texture::DisplayFlipped(int xPos, int yPos, SDL_Rect& area) {
+	void Texture::DisplayFlipped(SDL_Rect& area) {
 		SDL_Rect clip = { xPos, yPos, area.w, area.h };
 
 		SDL_RenderCopyEx(thisRenderer, theTexture, &area, &clip, 0.0, NULL, SDL_FLIP_HORIZONTAL);
+	}
+
+	void Texture::UpdatePosition(int x, int y) {
+		xPos = x;
+		yPos = y;
 	}
 
 	//deallocates memory for the texture

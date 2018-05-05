@@ -22,6 +22,7 @@ public:
 	void DisplayFlipped(const char* name, int xPos, int yPos, SDL_Rect& area);
 	void Render();
 	void Background();
+	void DisplayText(const char* text, int xPos, int yPos);
 private:
 	std::unordered_map<std::string, Texture> images;
 	Window mainWindow;

@@ -53,7 +53,13 @@ namespace game {
 		if (!jump) {
 			yVelocity += Y_ACCELERATION;
 			jump = true;
-			currentSprite = JUMP;
+			if (xVelocity > 0) {
+				currentSprite = JUMP_LEFT;
+			}
+			else {
+				currentSprite = JUMP_RIGHT;
+			}
+			frame = 0;
 		}
 	}
 	
@@ -62,6 +68,7 @@ namespace game {
 		if (currentSprite == WALK_RIGHT 
 			||currentSprite == STAND_RIGHT
 			||currentSprite == DUCK_RIGHT
+			||currentSprite == JUMP_RIGHT
 		) {
 			currentSprite = DUCK_RIGHT;
 		}
@@ -79,6 +86,7 @@ namespace game {
 		if (currentSprite == WALK_RIGHT 
 			||currentSprite == STAND_RIGHT
 			||currentSprite == DUCK_RIGHT
+			||currentSprite == JUMP_RIGHT
 		) {
 			currentSprite = STAND_RIGHT;
 		}
@@ -92,18 +100,41 @@ namespace game {
 		yVelocity -= GRAVITY;
 		xPos += xVelocity;
 		yPos -= yVelocity;
-		if (xPos > X_LIMIT) { xPos = X_MIN; }
-		if (xPos < X_MIN) { xPos = X_LIMIT; }
-		if (yPos > 0) {
-			yPos = 0;
-			yVelocity = 0;
-			jump = false;
-		}
+		Collide();
 		++frame;
 	}
 
 	//Displays the current sprite
 	void AnimCharacter::Display() {
 		spriteSheet.Display(xPos, yPos, frame, currentSprite);
+	}
+
+	bool AnimCharacter::Collide() {
+		if (xPos > X_LIMIT) { xPos = X_MIN; }
+		if (xPos < X_MIN) { xPos = X_LIMIT; }
+		if (yPos > 0) {
+			yPos = 0;
+			jump = false;
+			yVelocity = 0;
+			if (currentSprite == JUMP_RIGHT) {
+				if (xVelocity != 0) {
+						currentSprite = WALK_RIGHT;
+				}
+				else {
+					currentSprite = STAND_RIGHT;
+				}
+			}
+			else if (currentSprite == JUMP_LEFT) {
+				if (xVelocity != 0) {
+						currentSprite = WALK_LEFT;
+				}
+				else {
+					currentSprite = STAND_LEFT;
+				}
+			}
+			return true;
+		}
+		return false;
+
 	}
 }

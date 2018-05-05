@@ -9,11 +9,12 @@ namespace game {
 class Texture {
 public:
 	Texture();
-	Texture(const char* filename, SDL_Renderer*& renderer, size_t width, size_t height);
+	Texture(const char* filename, SDL_Renderer*& renderer, SDL_Rect location);
 	Texture(const Texture& toCopy);
-	void Display(int xPos, int yPos);
-	void Display(int xPos, int yPos, SDL_Rect& area);
-	void DisplayFlipped(int xPos, int yPos, SDL_Rect& area);
+	void Display();
+	void Display(SDL_Rect& area);
+	void UpdatePosition(int x, int y);
+	void DisplayFlipped(SDL_Rect& area);
 	void init(const char* filename);
 	void operator=(const Texture& toCopy) {
 		thisRenderer = toCopy.thisRenderer;
@@ -21,6 +22,8 @@ public:
 		filename = toCopy.filename;
 		xSize = toCopy.xSize;
 		ySize = toCopy.ySize;
+		xPos = toCopy.xPos;
+		yPos = toCopy.yPos;
 		if (filename != "") {
 			this->init(toCopy.filename.c_str());
 		}
@@ -32,6 +35,8 @@ private:
 	std::string filename;
 	int xSize;
 	int ySize;
+	int xPos;
+	int yPos;
 };
 
 

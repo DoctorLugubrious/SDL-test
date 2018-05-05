@@ -21,6 +21,7 @@ namespace game {
 		void UpdatePosition();
 		void Display();
 	private:
+		bool Collide();
 		int xPos;
 		int yPos;
 		int xVelocity;
