@@ -16,13 +16,14 @@ namespace game {
 class ImageLibrary {
 public:
 	ImageLibrary();
-	void Display(const char* name);
-	void Display(const char* name, int xPos, int yPos);
-	void Display(const char* name, int xPos, int yPos, SDL_Rect& area);
-	void DisplayFlipped(const char* name, int xPos, int yPos, SDL_Rect& area);
+	void Display(std::string name);
+	void Display(std::string name, int xPos, int yPos);
+	void Display(std::string name, int xPos, int yPos, SDL_Rect& area);
+	void DisplayFlipped(std::string name, int xPos, int yPos, SDL_Rect& area);
 	void Render();
 	void Background();
-	void DisplayText(const char* text, int xPos, int yPos);
+	void DisplayText(std::string text, int xPos, int yPos);
+	bool IsIn(std::string name, int x, int y);
 private:
 	std::unordered_map<std::string, Texture> images;
 	Window mainWindow;

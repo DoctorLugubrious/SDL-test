@@ -86,6 +86,13 @@ namespace game {
 		yPos = y;
 	}
 
+	bool Texture::IsIn(int x, int y) {
+		if (x > xPos && y > yPos && x < xPos + xSize && y < yPos + ySize) {
+			return true;
+		}
+		return false;
+	}
+
 	//deallocates memory for the texture
 	Texture::~Texture() {
 		if (theTexture != NULL) {

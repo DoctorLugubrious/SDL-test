@@ -97,10 +97,11 @@ namespace game {
 	
 	//updates the positions and velocities of the character for one frame
 	void AnimCharacter::UpdatePosition() {
-		yVelocity -= GRAVITY;
 		xPos += xVelocity;
 		yPos -= yVelocity;
-		Collide();
+		if (!Collide()) {
+			yVelocity -= GRAVITY;
+		}
 		++frame;
 	}
 
@@ -112,8 +113,7 @@ namespace game {
 	bool AnimCharacter::Collide() {
 		if (xPos > X_LIMIT) { xPos = X_MIN; }
 		if (xPos < X_MIN) { xPos = X_LIMIT; }
-		if (yPos > 0) {
-			yPos = 0;
+		if (yPos > WINDOW_HEIGHT - SPRITE_HEIGHT || sprites->IsIn("PLATFORM", xPos, yPos)) {
 			jump = false;
 			yVelocity = 0;
 			if (currentSprite == JUMP_RIGHT) {

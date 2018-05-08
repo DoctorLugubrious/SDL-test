@@ -25,7 +25,7 @@ namespace game {
 	 * Displays the image with the given name
 	 * Displays default if given name not in library
 	 */
-	void ImageLibrary::Display(const char* name) {
+	void ImageLibrary::Display(std::string name) {
 		if (images.count(name) == 0) {
 			name = "BACKGROUND";
 		}
@@ -36,11 +36,11 @@ namespace game {
 	 * Displays the image with the given name at the
 	 * location given (xPos, yPos)
 	 */
-	void ImageLibrary::Display(const char* name, int xPos, int yPos) {
+	void ImageLibrary::Display(std::string name, int xPos, int yPos) {
 		if (images.count(name) == 0) {
 			name = "NEUTRAL";
 		}	
-		images[name].UpdatePosition(xPos, WINDOW_HEIGHT + yPos - SPRITE_HEIGHT);
+		images[name].UpdatePosition(xPos, yPos);
 		images[name].Display();
 	}
 
@@ -48,24 +48,24 @@ namespace game {
 	 * Displays the image with the given name at the
 	 * location given (xPos, yPos)
 	 */
-	void ImageLibrary::Display(const char* name, int xPos, int yPos, SDL_Rect& area) {
+	void ImageLibrary::Display(std::string name, int xPos, int yPos, SDL_Rect& area) {
 		if (images.count(name) == 0) {
 			name = "LUCARIO";
 		}
-		this->DisplayText("Player 1", xPos,  WINDOW_HEIGHT + yPos - 2*SPRITE_HEIGHT); 
-		images[name].UpdatePosition(xPos, WINDOW_HEIGHT + yPos - SPRITE_HEIGHT);
+		this->DisplayText("Player 1", xPos, yPos); 
+		images[name].UpdatePosition(xPos, yPos);
 		images[name].Display(area);
 	}
 	/*
 	 * Displays the image with the given name at the
 	 * location given (xPos, yPos)
 	 */
-	void ImageLibrary::DisplayFlipped(const char* name, int xPos, int yPos, SDL_Rect& area) {
+	void ImageLibrary::DisplayFlipped(std::string name, int xPos, int yPos, SDL_Rect& area) {
 		if (images.count(name) == 0) {
 			name = "LUCARIO";
-		}
-		this->DisplayText("Player 1", xPos,  WINDOW_HEIGHT + yPos - 2*SPRITE_HEIGHT); 
-		images[name].UpdatePosition(xPos, WINDOW_HEIGHT + yPos - SPRITE_HEIGHT);
+		}	
+		this->DisplayText("Player 1", xPos, yPos); 
+		images[name].UpdatePosition(xPos, yPos);
 		images[name].DisplayFlipped(area);
 	}
 	/*
@@ -85,10 +85,17 @@ namespace game {
 		SDL_RenderPresent(*screenRenderer);
 	}
 	
-	void ImageLibrary::DisplayText(const char* text, int xPos, int yPos) {
+	void ImageLibrary::DisplayText(std::string text, int xPos, int yPos) {
 		Font typewriter("fonts/1942.ttf", 40);
 		Text test(text, *screenRenderer, &typewriter);
 		test.Display(xPos, yPos);
+	}
+	
+	bool ImageLibrary::IsIn(std::string name, int x, int y) {
+		if (images.count(name) == 0) {
+			name = "PLATFORM";
+		}
+		return images[name].IsIn(x,y);		
 	}
 
 }
