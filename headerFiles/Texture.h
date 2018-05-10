@@ -16,7 +16,7 @@ public:
 	void UpdatePosition(int x, int y);
 	void DisplayFlipped(SDL_Rect& area);
 	void init(const char* filename);
-	bool IsIn(int x, int y);
+	SDL_Rect IsIn(int x, int y);
 	void operator=(const Texture& toCopy) {
 		thisRenderer = toCopy.thisRenderer;
 		theTexture = NULL;

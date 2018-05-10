@@ -23,7 +23,7 @@ public:
 	void Render();
 	void Background();
 	void DisplayText(std::string text, int xPos, int yPos);
-	bool IsIn(std::string name, int x, int y);
+	SDL_Rect IsIn(std::string name, int x, int y);
 private:
 	std::unordered_map<std::string, Texture> images;
 	Window mainWindow;

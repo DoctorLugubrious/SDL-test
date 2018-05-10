@@ -111,10 +111,30 @@ namespace game {
 	}
 
 	bool AnimCharacter::Collide() {
-		if (xPos > X_LIMIT) { xPos = X_MIN; }
+		const int LEFT = xPos;
+		const int RIGHT = xPos + STAND_SPRITE_WIDTH;
+		const int TOP = yPos;
+		const int BOTTOM = yPos + SPRITE_HEIGHT;
+		bool collided = false;
+	
 		if (xPos < X_MIN) { xPos = X_LIMIT; }
-		if (yPos > WINDOW_HEIGHT - SPRITE_HEIGHT || sprites->IsIn("PLATFORM", xPos, yPos)) {
+		if (xPos > X_LIMIT) { xPos = X_MIN; }
+
+		SDL_Rect leftBottom = sprites->IsIn("PLATFORM", LEFT, BOTTOM);
+		SDL_Rect rightBottom = sprites->IsIn("PLATFORM", RIGHT, BOTTOM);
+		SDL_Rect leftTop = sprites->IsIn("PLATFORM", LEFT, TOP);
+		SDL_Rect rightTop = sprites->IsIn("PLATFORM", RIGHT, TOP);
+	
+		if (yPos > WINDOW_HEIGHT - SPRITE_HEIGHT
+		 || (leftBottom.w && rightBottom.w)) {
 			jump = false;
+			//yPos += yVelocity;
+			if (leftBottom.w) {
+				yPos = leftBottom.y - SPRITE_HEIGHT;
+			}
+			else {
+				yPos = WINDOW_HEIGHT - SPRITE_HEIGHT;
+			}
 			yVelocity = 0;
 			if (currentSprite == JUMP_RIGHT) {
 				if (xVelocity != 0) {
@@ -132,9 +152,21 @@ namespace game {
 					currentSprite = STAND_LEFT;
 				}
 			}
-			return true;
+			collided = true;
 		}
-		return false;
+		if (rightTop.w && leftTop.w) {
+			yVelocity = 0;
+			yPos = leftTop.y + leftTop.h;
+		}
+		if (rightTop.w && rightBottom.w) {
+			xVelocity = 0;
+			xPos = rightTop.x - STAND_SPRITE_WIDTH;
+		}
+		if (leftTop.w && leftBottom.w) {
+			xVelocity = 0;
+			xPos = leftTop.x + leftTop.w;
+		}
+		return collided;
 
 	}
 }

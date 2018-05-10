@@ -11,8 +11,9 @@ using std::endl;
 
 //Environment default constructor
 Environment::Environment():
-	 player(&images),
-	 images() 
+	player(&images),
+	obstacle(&images),
+	images() 
 {
 	 //Initialize SDL_ttf
 	if( TTF_Init() == -1 )
@@ -25,11 +26,10 @@ Environment::Environment():
 void Environment::gameLoop() {
 	bool quit = false;
 	SDL_Event event;
-	images.Background();
-	player.Display();	
 	while (!quit) {
 		images.Background();
 		player.Display();
+		obstacle.Display();
 		images.Render();	
 		SDL_Delay(10);
 		while (SDL_PollEvent(&event) != 0) {	

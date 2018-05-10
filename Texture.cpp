@@ -86,11 +86,11 @@ namespace game {
 		yPos = y;
 	}
 
-	bool Texture::IsIn(int x, int y) {
+	SDL_Rect Texture::IsIn(int x, int y) {
 		if (x > xPos && y > yPos && x < xPos + xSize && y < yPos + ySize) {
-			return true;
+			return {xPos, yPos, xSize, ySize};
 		}
-		return false;
+		return {0, 0, 0, 0};
 	}
 
 	//deallocates memory for the texture

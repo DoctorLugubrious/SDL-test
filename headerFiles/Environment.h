@@ -11,13 +11,15 @@ which runs the game loop.
 #include <string>
 #include "AnimatedCharacter.h"
 #include "ImageLibrary.h"
+#include "Platform.h"
 
 namespace game {
 
 
 class Environment {
 private:
-	AnimCharacter player;
+	AnimCharacter player;	
+	Platform obstacle;
 	ImageLibrary images;
 public:
 	Environment();

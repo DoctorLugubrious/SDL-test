@@ -52,7 +52,7 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "LUCARIO";
 		}
-		this->DisplayText("Player 1", xPos, yPos); 
+		this->DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT); 
 		images[name].UpdatePosition(xPos, yPos);
 		images[name].Display(area);
 	}
@@ -64,7 +64,7 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "LUCARIO";
 		}	
-		this->DisplayText("Player 1", xPos, yPos); 
+		this->DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT); 
 		images[name].UpdatePosition(xPos, yPos);
 		images[name].DisplayFlipped(area);
 	}
@@ -74,7 +74,6 @@ namespace game {
 	void ImageLibrary::Background() {
 		SDL_RenderClear(*screenRenderer);
 		images["BACKGROUND"].Display();
-		images["PLATFORM"].Display();
 	}
 
 	/*
@@ -91,7 +90,7 @@ namespace game {
 		test.Display(xPos, yPos);
 	}
 	
-	bool ImageLibrary::IsIn(std::string name, int x, int y) {
+	SDL_Rect ImageLibrary::IsIn(std::string name, int x, int y) {
 		if (images.count(name) == 0) {
 			name = "PLATFORM";
 		}
