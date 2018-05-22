@@ -1,15 +1,18 @@
 #ifndef WIDNOW_DOT_H_
 #define WINDOW_DOT_H_
-
-/*
-A wrapper class for SDL_Window* so that memory is not leaked
-or accessed invalidly
-*/
-
-#include <SDL2/SDL.h>
 #include <string>
 
+#include <SDL2/SDL.h>
+
 namespace game {
+
+/*The Window class is a window to display images on, mainly used to set up the renderer.
+ ***Window()
+ ***	default constructor
+ ***operator*
+ ***	for using in calls to SDL functions.
+ */
+
 
 class Window {
 public:

@@ -1,7 +1,8 @@
 #include "Texture.h"
 #include "Image.h"
+#include "Exceptions.h"
 #include <iostream>
-
+#include <string>
 using std::cout;
 using std::endl;
 
@@ -12,36 +13,35 @@ namespace game {
 	 * it won't be able to do anything.
 	 */
 	Texture::Texture(): 
-		theTexture(NULL), 
-		thisRenderer(NULL), 
-		filename(""),
 		xSize(0),
 		ySize(0),
 		xPos(0),
-		yPos(0)
- 	{}
+		yPos(0),
+		theTexture(NULL), 
+		thisRenderer(NULL), 
+		filename("") {}
 	
 	//parameterized constructor that takes a filename and a renderer to render to
-	Texture::Texture(const char* initFilename, SDL_Renderer*& renderer, SDL_Rect location):
-		theTexture(NULL),
-		thisRenderer(renderer),
-		filename(initFilename),
+	Texture::Texture(std::string initFilename, SDL_Renderer*& renderer, SDL_Rect location):
 		xSize(location.w),
 		ySize(location.h),
 		xPos(location.x),
-		yPos(location.y) {
+		yPos(location.y),
+		theTexture(NULL),
+		thisRenderer(renderer),
+		filename(initFilename) {
 		this->init(filename.c_str());
 	}
 
 	//copy constructor
 	Texture::Texture(const Texture& toCopy):
-		theTexture(NULL),
-		thisRenderer(toCopy.thisRenderer),
-		filename(toCopy.filename),
 		xSize(toCopy.xSize),
 		ySize(toCopy.ySize),
 		xPos(toCopy.xPos),
-		yPos(toCopy.yPos) {
+		yPos(toCopy.yPos),
+		theTexture(NULL),
+		thisRenderer(toCopy.thisRenderer),
+		filename(toCopy.filename) {
 		if (filename != "") {
 			this->init(filename.c_str());
 		}
@@ -54,8 +54,9 @@ namespace game {
 			SDL_SetColorKey(*initImage, SDL_TRUE, SDL_MapRGB( (*initImage)->format, 0x00, 0xff, 0x00));
 			theTexture = SDL_CreateTextureFromSurface(thisRenderer, initImage.GetImage());
 			if (theTexture == NULL) {	
-				std::cout << "Unable to create texture! SDL Error: " 
-					<< SDL_GetError() << std::endl;
+				std::string error = "Unable to create texture! SDL Error: "; 
+				error += SDL_GetError();
+				throw(GraphicsException(error));
 			}
 		}
 	}

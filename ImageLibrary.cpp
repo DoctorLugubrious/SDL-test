@@ -18,7 +18,7 @@ namespace game {
 		images["BACKGROUND"] = Texture("gameSprites/TestBackground.png", *screenRenderer, 
 			{0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});	
 		images["LUCARIO"] = Texture("gameSprites/lucarioGrid.png", *screenRenderer, {0, 0, 0, 0});
-		images["PLATFORM"] = Texture("gameSprites/platform.png", *screenRenderer, {WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 280, 240});	
+		images["PLATFORM"] = Texture("gameSprites/platform.png", *screenRenderer, {WINDOW_WIDTH/2, WINDOW_HEIGHT/2 + 50, 230, 150});	
 	}	
 
 	/*
@@ -52,7 +52,6 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "LUCARIO";
 		}
-		this->DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT); 
 		images[name].UpdatePosition(xPos, yPos);
 		images[name].Display(area);
 	}
@@ -64,7 +63,6 @@ namespace game {
 		if (images.count(name) == 0) {
 			name = "LUCARIO";
 		}	
-		this->DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT); 
 		images[name].UpdatePosition(xPos, yPos);
 		images[name].DisplayFlipped(area);
 	}
@@ -83,13 +81,19 @@ namespace game {
 	void ImageLibrary::Render() {
 		SDL_RenderPresent(*screenRenderer);
 	}
-	
+
+
+	/*
+	* Displays text at the given location
+	*/	
 	void ImageLibrary::DisplayText(std::string text, int xPos, int yPos) {
 		Font typewriter("fonts/1942.ttf", 40);
 		Text test(text, *screenRenderer, &typewriter);
 		test.Display(xPos, yPos);
 	}
 	
+	/*returns true if the given point is in the given object
+	*/
 	SDL_Rect ImageLibrary::IsIn(std::string name, int x, int y) {
 		if (images.count(name) == 0) {
 			name = "PLATFORM";

@@ -1,5 +1,6 @@
 #include "Text.h"
 #include "Image.h"
+#include "Exceptions.h"
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
@@ -14,32 +15,32 @@ namespace game {
 	 * it won't be able to do anything.
 	 */
 	Text::Text(): 
+		width(0),
+		height(0),
 		theText(NULL), 
 		thisRenderer(NULL), 
-		contents(""),
-		width(0),
-		height(0)
- 	{}
+		font (NULL),
+		contents("") {}
 	
 	//parameterized constructor that takes a filename and a renderer to render to
 	Text::Text(std::string initContents, SDL_Renderer*& renderer, Font* font):
-		theText(NULL),
-		thisRenderer(renderer),
-		contents(initContents),
 		width(0),
 		height(0),
-		font(font) {
+		theText(NULL),
+		thisRenderer(renderer),
+		font(font),
+		contents(initContents) {
 		this->init();
 	}
 
 	//copy constructor
 	Text::Text(const Text& toCopy):
-		theText(NULL),
-		thisRenderer(toCopy.thisRenderer),
-		contents(toCopy.contents), 
 		width(0),
 		height(0),
-		font(toCopy.font) {
+		theText(NULL),
+		thisRenderer(toCopy.thisRenderer),
+		font(toCopy.font),
+		contents(toCopy.contents) {
 		if (contents != "") {
 			this->init();
 		}
@@ -57,14 +58,16 @@ namespace game {
 		//Load initial surface
 		SDL_Surface* textSurface = TTF_RenderText_Solid(*(*font), contents.c_str(), {0, 0, 0}); 
 		if (textSurface == NULL) {
-			std::cout << "Unable to create text! SDL Error: " 
-				<< SDL_GetError() << std::endl;
+			std::string error = "Unable to create text! SDL Error: "; 
+			error += SDL_GetError();
+			throw(GraphicsException(error));
 		}
 		//load text
 		theText = SDL_CreateTextureFromSurface(thisRenderer, textSurface);
 		if (theText == NULL) {	
-			std::cout << "Unable to create texture! SDL Error: " 
-				<< SDL_GetError() << std::endl;
+			std::string error = "Unable to create texture! SDL Error: "; 
+			error += SDL_GetError();
+			throw(GraphicsException(error));
 		}
 
 		width = textSurface->w;

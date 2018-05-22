@@ -1,5 +1,6 @@
+#include "Exceptions.h"
 #include "Environment.h"
-
+#include <iostream>
 using game::Environment;
 
 /*
@@ -8,6 +9,11 @@ using game::Environment;
 
 int main(int argc, char* argv[]) {
 	Environment gameSpace;
-	gameSpace.gameLoop();	
+	try {
+		gameSpace.gameLoop();
+	}	
+	catch(game::GraphicsException failState) {
+		std::cerr << failState.error << std::endl;
+	}
 	return 0;
 }

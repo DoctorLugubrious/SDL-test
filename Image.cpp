@@ -1,47 +1,57 @@
 //Using SDL and standard IO
+#include <iostream>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <iostream>
+
 #include "Image.h"
+#include "Exceptions.h"
+
 namespace game { 
 
 	using std::cout;
 	using std::endl;
-	//Constructs an image given the filename of the image 
-	Image::Image(const char* file) {
+	//Constructs an image given the filename of the image. Can throw GraphicsException
+	Image::Image(std::string file) {
 		int imageFlag = IMG_INIT_PNG;
 		if (!(IMG_Init(imageFlag) & imageFlag)) {
-			cout << "Image error: " << IMG_GetError() << endl;
-			return;
+			std::string error = "Image error: "; 
+			error += IMG_GetError();
+			throw(GraphicsException(error));
 		}	
-		theImage = IMG_Load(file);
-		if(theImage == NULL)
-		{
-			cout << "Unable to load image! SDL Error: " << SDL_GetError() << endl;
+		theImage = IMG_Load(file.c_str());
+		if(theImage == NULL) {
+			std::string error = "Unabe to load image! SDL Error: "; 
+			error += SDL_GetError();
+			throw(GraphicsException(error));
 		}
 		filename = file;
 	 };
-	//copy constructor
+	//copy constructor, can throw GraphicsException
 	Image::Image(const Image& toCopy) {
 		int imageFlag = IMG_INIT_PNG;
 		if (!(IMG_Init(imageFlag) & imageFlag)) {
-			cout << "Image error: " << IMG_GetError() << endl;
-			return;
+			std::string error = "Image error: ";
+			error += IMG_GetError();
+			throw(GraphicsException(error));
 		}
 		theImage = IMG_Load(toCopy.filename.c_str());
 		if (theImage == NULL) {
-			cout << "Unable to load image! SDL Error: " << SDL_GetError() << endl;
+			std::string error = "Unabe to load image! SDL Error: "; 
+			error += SDL_GetError();
+			throw(GraphicsException(error));
 		}
 		filename = toCopy.filename;
 	}
 	//given a surface to display on and a size, optimizes the image for that surface
-	//and displays it
+	//and displays it. can throw GraphicsException
 	void Image::DisplayImage(SDL_Surface** screenSurface, int width, int height) {
 		if (theImage == NULL) { return; }
 		theImage = SDL_ConvertSurface(theImage, (*screenSurface)->format, 0);
 		if (theImage == NULL) {
-			cout << "Unable to optimize image!" << SDL_GetError() << endl;
-			return;
+			std::string error = "Unabe to optimize image! SDL Error: "; 
+			error += SDL_GetError();
+			throw(GraphicsException(error));
 		}
 		
 		SDL_Rect imageArea;

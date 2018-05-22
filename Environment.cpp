@@ -1,24 +1,28 @@
 //Using SDL and standard IO
+#include <iostream>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include <iostream>
+
 #include "Environment.h"
+#include "Exceptions.h"
 
 namespace game { 
 
 using std::cout;
 using std::endl;
 
-//Environment default constructor
+//Environment default constructor. May throw a GraphicsException object
 Environment::Environment():
 	player(&images),
 	obstacle(&images),
-	images() 
-{
+	images() {
 	 //Initialize SDL_ttf
 	if( TTF_Init() == -1 )
 	{
-	    cout<< "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
+		std::string error = "SDL_ttf could not initialize! SDL_ttf Error: ";
+		error += TTF_GetError();
+	    throw(GraphicsException(error));
 	}	
 }
 
@@ -58,6 +62,9 @@ void Environment::gameLoop() {
 					break;
 					case SDLK_DOWN:
 						player.Duck();
+					break;
+					case SDLK_SPACE:
+						player.Attack();
 					break;
 					default:
 						player.Idle();

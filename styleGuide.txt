@@ -1,0 +1,74 @@
+REQUIRED
+bracing:
+  K&R style for functions, conditionals, switch, etc.
+  One-line conditionals or functions can be K&R or all on one line
+    e.g.: if(condition) { oneStatement; }  
+    but braces have a space after beginning and before end
+indentation and spaces:
+  use in general the aforementioned K&R style. Whatever the tab key does, that is one indent.
+  no indent is necessary for namespaces
+  in general, avoid too many nested statements; break things up as much as you can
+  there should be no more that one space in a row anywhere
+  put a space between operators that use two operands (+, /, >>, etc.) and their operands
+  put no space between ++, --, ., ->, [], etc.
+  put no space between a function and its arguments  
+    e.g. (aFunction())
+    but do put a space after the comma if there are multiple arguments 
+    but not put a space between parenthises and their arguments
+  put the '*' of a pointer next to the typename, not the variable name
+class declarations and documentation:
+  Each class should be declared using the aforementioned bracing style.
+  In general, each function should be inline if it is a one-line function or an overloaded operator that is simple.
+  Each class header file must have a comment describing briefly each public function in the class.
+  In the cpp file, each function must have a comment preceding it describing:
+    -what the preconditions are
+    -what the arguments are
+    -what the postconditions are
+    -expceptions that it may throw
+  The public functions of a class should be listed first.
+  The data members should be grouped by type in descending order of size, with functions first. One line of blank space should be placed
+    between the different types.
+constructor style and initialization lists:
+  constructors, in general, follow the same style for other functions but with some exceptions:
+	if there is a short initialization list, it may follow the header on the same lin
+	of there is a long construction list, each member of the list is on its own line,
+          with the { on the same line as the last argument 
+          if the constructor is empty, the empty {}; is on the same line as the last element
+  if you are going to throw an exception in a constructor, clean up any allocated memory first.
+header guards:
+  each header file should have header guards by defining a constants that is the filename with underscore and then DOT_H_
+variable and function case:
+  variable names should be descriptive, but even more so with function and class names.
+  variables are in upperCamelCase and functions and classes are in UpperCamelCase. They should contain only letters.
+  constants are declared in ALL_CAPS with underscores seperating words
+namespaces and using declarations:
+  each function and class should be in a user-defined namespace describing what would use it
+  no using declarations in header files
+  in cpp files, using declarations cannot include entire namespace
+  using delcarations can include single members of other namespaces only if used multiple times
+functions:
+  variables other than primitive data types and pointers to objects should be passed by reference
+  it is not necessary to declare argument names in function declarations
+  
+
+
+GENERAL PRINCIPLES	
+
+spacing:
+  lines should be 80 characters or less in length
+  switch statement aligned with cases, but not breaks	
+includes:
+  includes should include standard library files first, then SDL files, then user defined files
+magic numbers:
+  numbers other than boundary alignments should not be in the body of your code
+  delcare const variables rather than #defining.
+variable initialization:
+  Variables should be initialized and declared before first use in the scope they are needed
+exceptions (reference)
+  In general, exceptions should be caught by reference unless using a very small data type
+Resource Aquisition is Initialization
+  If a function requires cleanup or setup, write it in a class
+Rule of three
+  If a class has a destructor or a copy constructor or a copy assignement operator
+  you should most likely write the other two (for memory initialization/ deep copies)
+
