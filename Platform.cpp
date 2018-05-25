@@ -5,17 +5,15 @@ namespace game {
 /*Needs an image library pointer to display Images
 */
 Platform::Platform(ImageLibrary* init): 
-	xPos(WINDOW_WIDTH/2),
-	yPos(WINDOW_HEIGHT/2),
-	width(280),
-	height(240), 		
+	x(WINDOW_WIDTH/2),
+	y(WINDOW_HEIGHT/2),
 	sprites(init) {};
 
 
 /*Displays the platform
 */
 void Platform::Display() {
-	sprites->Display("PLATFORM"); 
+	sprites->Display("PLATFORM", x, y); 
 }
 
 /* Returns all 0's if not in, returns the location if in
@@ -23,5 +21,11 @@ void Platform::Display() {
 SDL_Rect Platform::IsIn(int x, int y) {
 	return sprites->IsIn("PLATFORM", x, y);
 }
+
+void Platform::UpdatePosition(int newx, int newy) {
+	x = newx;
+	y = newy;
+}
+
 }
 

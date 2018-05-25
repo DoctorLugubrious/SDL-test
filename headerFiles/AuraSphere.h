@@ -1,6 +1,7 @@
 #ifndef AURA_SPHERE_DOT_H_
 #define AURA_SPHERE_DOT_H_
 
+#include "constants.h"
 #include "CharacterSpriteSheet.h"
 
 /*The Aura Sphere class is a projectile that an animated character attacks with.
@@ -20,7 +21,7 @@ namespace game {
 class AuraSphere {
 public:
 	AuraSphere(CharacterSpriteSheet*);
-	void Start(int x, int y, bool left);
+	void Start(int x, int y, bool left, CharacterState state);
 	void Update(int frame);
 	void Display(int frame);
 private:
@@ -29,6 +30,7 @@ private:
 
 	int xPos;
 	int yPos;
+	int delay;
 	size_t frame;
 
 	CharacterSpriteSheet* images;

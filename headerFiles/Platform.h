@@ -13,17 +13,19 @@ namespace game {
  ***	Displays the platform
  ***IsIn(int x, int y)
  **	Returns the area if x,y is in the platform, all 0's otherwise 
+ ***UpdatePosition(int x, int y)
+ **	changes the location to (x,y) 
  */
 class Platform {
 public:
 	Platform(ImageLibrary*);
 	void Display();
 	SDL_Rect IsIn(int, int);
+	void UpdatePosition(int, int);
 private:
-	int xPos;
-	int yPos;
-	size_t width;
-	size_t height;
+	int x;
+	int y;
+	
 	ImageLibrary* sprites;
 };
 }

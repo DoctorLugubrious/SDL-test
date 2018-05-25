@@ -7,10 +7,10 @@ const int WINDOW_HEIGHT = 600;
 const int X_LIMIT = WINDOW_WIDTH - 20;
 const int Y_LIMIT = WINDOW_HEIGHT;
 const int X_MIN = -50;
-const int X_ACCELERATION = 3;
+const int X_ACCELERATION = 2;
 const int Y_ACCELERATION = 35;
 
-const int X_VELOCITY_MAX = 10;
+const int X_VELOCITY_MAX = 15;
 const int Y_VELOCITY_MAX = 100;
 
 const int GRAVITY = 2;

@@ -48,6 +48,7 @@ public:
 private:
 	bool Collide();
 	void Floor(int height);
+	void FinishAnimation();
 
 	bool jump;
 
@@ -55,10 +56,9 @@ private:
 	int yPos;
 	int xVelocity;
 	int yVelocity;
-	size_t width;
-	size_t height;
 	size_t frame;
 	CharacterState currentSprite;
+	CharacterState previousSprite;
 
 	ImageLibrary* sprites;
 	

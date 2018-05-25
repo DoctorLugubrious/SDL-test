@@ -14,13 +14,12 @@ namespace game {
  ***	the sprites it uses
  ***void Display(int x, int y, int frame, CharacterState state);
  ***	Displays the animation. Needs the locations (x and y), the animation frame, and
- ***	the characterState. Returns the new character state so you can update it if the animation 
- ***	completes
+ ***	the characterState. Returns true if the animation completes.
  */
 class CharacterSpriteSheet {
 public:
 	CharacterSpriteSheet(ImageLibrary* init);
-	CharacterState Display(int x, int y, int frame, CharacterState state);
+	bool Display(int x, int y, int frame, CharacterState state);
 private:
 	ImageLibrary* sprites;
 	std::vector<SDL_Rect> jumpFrames;

@@ -1,6 +1,8 @@
-#include "AnimatedCharacter.h"
-#include "constants.h"
 #include <iostream>
+#include <algorithm>
+
+#include "constants.h"
+#include "AnimatedCharacter.h"
 using std::cout;
 using std::endl;
 
@@ -16,35 +18,26 @@ AnimCharacter::AnimCharacter(ImageLibrary* init) :
 	yPos (0),
 	xVelocity(0),
 	yVelocity(0),
-	width (60),
-	height (48),
 	frame(0),
 	currentSprite(STAND_RIGHT),
+	previousSprite(STAND_RIGHT),
 	sprites(init),
 	projectile(&spriteSheet),
 	spriteSheet(init) {};
-
-//moves the character right
-void AnimCharacter::MoveRight() {
-	if (xVelocity < 0) {
-		xVelocity = 0;
-	}
-	if (xVelocity > X_VELOCITY_MAX) {
-		xVelocity = X_VELOCITY_MAX;
-	}
-	xVelocity += X_ACCELERATION;
-	currentSprite = WALK_LEFT;
-}
 
 //moves the character left
 void AnimCharacter::MoveLeft() {
 	if (xVelocity > 0) {
 		xVelocity = 0;
 	}
-	if (xVelocity < -X_VELOCITY_MAX) {
-		xVelocity = -X_VELOCITY_MAX;
+	currentSprite = WALK_LEFT;
+}
+
+//moves the character right
+void AnimCharacter::MoveRight() {
+	if (xVelocity < 0) {
+		xVelocity = 0;
 	}
-	xVelocity -= X_ACCELERATION;
 	currentSprite = WALK_RIGHT;
 }
 
@@ -97,6 +90,18 @@ void AnimCharacter::Idle() {
 
 //updates the positions and velocities of the character for one frame
 void AnimCharacter::UpdatePosition() {
+	if (currentSprite == WALK_LEFT) {
+		xVelocity -= X_ACCELERATION;
+	}
+	else if (currentSprite == WALK_RIGHT) {
+		xVelocity += X_ACCELERATION;
+	}
+	if (xVelocity > X_VELOCITY_MAX) {
+		xVelocity = X_VELOCITY_MAX;
+	}
+	if (xVelocity < -X_VELOCITY_MAX) {
+		xVelocity = -X_VELOCITY_MAX;
+	}	
 	xPos += xVelocity;
 	yPos -= yVelocity;
 	if (!Collide()) {
@@ -111,8 +116,9 @@ void AnimCharacter::Display() {
 	projectile.Update(frame);
 	projectile.Display(frame);
 	sprites->DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT);
-	//make some sort to change function for when the animation completes
-	currentSprite = spriteSheet.Display(xPos, yPos, frame, currentSprite);
+	if (spriteSheet.Display(xPos, yPos, frame, currentSprite)) {
+		FinishAnimation();
+	}
 }
 
 
@@ -156,52 +162,20 @@ bool AnimCharacter::Collide() {
 		xPos = leftTop.x + leftTop.w;
 	}
 	else if (leftTop.w) {
-		int X_DELTA = leftTop.x + leftTop.w - LEFT;
-		int Y_DELTA = leftTop.y + leftTop.h - TOP;
-		if (X_DELTA < Y_DELTA) {
-			xVelocity = 0;
-			xPos = leftTop.x + leftTop.w;
-		}
-		else {
-			yVelocity = 0;
-			yPos = leftTop.y + leftTop.h;
-		}
+		xVelocity = 0;
+		xPos = leftTop.x + leftTop.w;
 	}
 	else if (rightTop.w) {
-		int X_DELTA = LEFT - rightTop.x;
-		int Y_DELTA = rightTop.y + rightTop.h - TOP;
-		if (X_DELTA < Y_DELTA) {
-			xVelocity = 0;
-			xPos = rightTop.x;
-		}
-		else {
-			yVelocity = 0;
-			yPos = rightTop.y + rightTop.h;
-		}
+		xVelocity = 0;
+		xPos = rightTop.x;
 	}
 	else if (rightBottom.w) {
-		int X_DELTA = RIGHT - rightBottom.x;
-		int Y_DELTA = BOTTOM - rightBottom.y;
-		if (X_DELTA < Y_DELTA) {
-			xVelocity = 0;
-			xPos = rightBottom.x - STAND_SPRITE_WIDTH;
-		}
-		else {
-			Floor(rightBottom.y - SPRITE_HEIGHT);
-			collided = true;
-		}
+		xVelocity = 0;
+		xPos = rightBottom.x - STAND_SPRITE_WIDTH;
 	}
 	else if (leftBottom.w) {
-		int X_DELTA = leftBottom.x + leftBottom.w - LEFT;
-		int Y_DELTA = BOTTOM - leftBottom.y;
-		if (X_DELTA < Y_DELTA) {
-			xVelocity = 0;
-			xPos = leftBottom.x + leftBottom.w;
-		}
-		else {
-			Floor(leftBottom.y - SPRITE_HEIGHT);
-			collided = true;
-		}
+		xVelocity = 0;
+		xPos = leftBottom.x + leftBottom.w;
 	}
 	return collided;
 
@@ -210,17 +184,21 @@ bool AnimCharacter::Collide() {
 /* Shoots an aura sphere
 */
 void AnimCharacter::Attack() {
+	const int PROJECTILE_OFFSET = 10;
+	bool direction = false;
+	previousSprite = currentSprite;
 	if (currentSprite == WALK_RIGHT
 		|| currentSprite == STAND_RIGHT
 		|| currentSprite == JUMP_RIGHT
 		|| currentSprite == DUCK_RIGHT) {
 		currentSprite = ATTACK_RIGHT;
-		projectile.Start(xPos + 10, yPos, false);
+		direction = true;
 	}
 	else {
 		currentSprite = ATTACK_LEFT;
-		projectile.Start(xPos - 10, yPos, true);
+		direction = false;
 	}
+		projectile.Start(xPos - PROJECTILE_OFFSET, yPos, direction, previousSprite);
 	frame = 0;
 }
 
@@ -249,4 +227,13 @@ void AnimCharacter::Floor(int height) {
 		}
 
 }
+
+/* Returns to the previous animation when an animation completes
+*/
+
+void AnimCharacter::FinishAnimation() {
+	std::swap(currentSprite, previousSprite);
+}
+
+
 }

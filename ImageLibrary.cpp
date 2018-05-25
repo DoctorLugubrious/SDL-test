@@ -15,10 +15,14 @@ namespace game {
 	 * It also displays the background when initialized 
 	 */
 	ImageLibrary::ImageLibrary(): mainWindow(), screenRenderer(*mainWindow) {
+	const int PLATFORM_WIDTH = 230;
+	const int PLATFORM_HEIGHT = 150;
+	const int PLATFORM_OFFSET = 50;
 		images["BACKGROUND"] = Texture("gameSprites/TestBackground.png", *screenRenderer, 
 			{0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});	
 		images["LUCARIO"] = Texture("gameSprites/lucarioGrid.png", *screenRenderer, {0, 0, 0, 0});
-		images["PLATFORM"] = Texture("gameSprites/platform.png", *screenRenderer, {WINDOW_WIDTH/2, WINDOW_HEIGHT/2 + 50, 230, 150});	
+		images["PLATFORM"] = Texture("gameSprites/platform.png", *screenRenderer,
+			{WINDOW_WIDTH/2, WINDOW_HEIGHT/2 + PLATFORM_OFFSET, PLATFORM_WIDTH, PLATFORM_HEIGHT});	
 	}	
 
 	/*
@@ -87,7 +91,8 @@ namespace game {
 	* Displays text at the given location
 	*/	
 	void ImageLibrary::DisplayText(std::string text, int xPos, int yPos) {
-		Font typewriter("fonts/1942.ttf", 40);
+		const int FONT_SIZE = 40;
+		Font typewriter("fonts/1942.ttf", FONT_SIZE);
 		Text test(text, *screenRenderer, &typewriter);
 		test.Display(xPos, yPos);
 	}

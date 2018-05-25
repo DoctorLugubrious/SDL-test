@@ -3,13 +3,23 @@ namespace game {
 
 /* Sets up the character sprite sheet as long as the ImageLibrary* is valid.
  */
+
+const int JUMP_FRAMES = 4;
+const int DUCK_FRAMES = 1;
+const int WALK_FRAMES = 8;
+const int STAND_FRAMES = 8;
+const int ATTACK_FRAMES = 16;
+
+const int ATTACK_SPRITES = 12;
+const int AURA_FRAMES = 4;
+
 CharacterSpriteSheet::CharacterSpriteSheet(ImageLibrary* init):
 	sprites(init),
-	jumpFrames(4),
-	duckFrames(1),
-	walkFrames(8),
-	standFrames(8),
-	attackFrames(16) {
+	jumpFrames(JUMP_FRAMES),
+	duckFrames(DUCK_FRAMES),
+	walkFrames(WALK_FRAMES),
+	standFrames(STAND_FRAMES),
+	attackFrames(ATTACK_FRAMES) {
 
 	SDL_Rect test = {0, 0, 0, SPRITE_HEIGHT};
 
@@ -54,75 +64,75 @@ CharacterSpriteSheet::CharacterSpriteSheet(ImageLibrary* init):
 
 /* Displays the sprite for the current frame at the current position
 */
-//CHANGE TO bool LATER	
-CharacterState CharacterSpriteSheet::Display(int x, int y, int frame, CharacterState state) {
+bool CharacterSpriteSheet::Display(int x, int y, int frame, CharacterState state) {
 	const int FRAME_RATE = 5;
+	const int ATTACK_FRAME_RATE = 2;
 	size_t sprite = (frame / FRAME_RATE) % standFrames.size();
 	switch(state) {
 		case WALK_LEFT:
-			sprites->Display("LUCARIO", x, y, walkFrames.at(sprite));
-			break;
-		case WALK_RIGHT:
 			sprites->DisplayFlipped("LUCARIO", x, y, walkFrames.at(sprite));
 			break;
-		case DUCK_LEFT:
-			sprites->Display("LUCARIO", x, y, duckFrames.at(0));
+		case WALK_RIGHT:
+			sprites->Display("LUCARIO", x, y, walkFrames.at(sprite));
 			break;
-		case DUCK_RIGHT:
+		case DUCK_LEFT:
 			sprites->DisplayFlipped("LUCARIO", x, y, duckFrames.at(0));
 			break;
+		case DUCK_RIGHT:
+			sprites->Display("LUCARIO", x, y, duckFrames.at(0));
+			break;
 		case STAND_LEFT:
-		sprites->Display("LUCARIO", x, y, standFrames.at(sprite));
+		sprites->DisplayFlipped("LUCARIO", x, y, standFrames.at(sprite));
 			break;
 		case STAND_RIGHT:
-			sprites->DisplayFlipped("LUCARIO", x, y, standFrames.at(sprite));
+			sprites->Display("LUCARIO", x, y, standFrames.at(sprite));
 			break;
 		case JUMP_LEFT:
 			if (sprite >= jumpFrames.size()) {
-				sprites->Display("LUCARIO", x, y, jumpFrames.at(3));
-			}
-			else {
-				sprites->Display("LUCARIO", x, y, jumpFrames.at(sprite));
-			}
-			break;
-		case JUMP_RIGHT:
-			if (sprite >= jumpFrames.size()) {
-				sprites->DisplayFlipped("LUCARIO", x, y, jumpFrames.at(3));
+				sprites->DisplayFlipped("LUCARIO", x, y, jumpFrames.at(JUMP_FRAMES - 1));
 			}
 			else {
 				sprites->DisplayFlipped("LUCARIO", x, y, jumpFrames.at(sprite));
 			}
 			break;
-		case ATTACK_LEFT:
-			sprite = (frame / 2);
-			if (sprite > 11) {
-				this->Display(x, y, frame, STAND_LEFT);
-				return STAND_LEFT;
+		case JUMP_RIGHT:
+			if (sprite >= jumpFrames.size()) {
+				sprites->Display("LUCARIO", x, y, jumpFrames.at(JUMP_FRAMES - 1));
 			}
-			sprite %= 12;
-			sprites->Display("LUCARIO", x, y, attackFrames.at(sprite));
+			else {
+				sprites->Display("LUCARIO", x, y, jumpFrames.at(sprite));
+			}
+			break;
+		case ATTACK_LEFT:
+			sprite = (frame / ATTACK_FRAME_RATE);
+			if (sprite > ATTACK_SPRITES - 1) {
+				this->Display(x, y, frame, STAND_LEFT);
+				return true;
+			}
+			sprite %= ATTACK_SPRITES;
+			sprites->DisplayFlipped("LUCARIO", x, y, attackFrames.at(sprite));
 			break;
 		case ATTACK_RIGHT:
-			sprite = (frame / 2);
-			if (sprite > 11) {
+			sprite = (frame / ATTACK_FRAME_RATE);
+			if (sprite > ATTACK_SPRITES - 1) {
 				this->Display(x, y, frame, STAND_RIGHT);
-				return STAND_RIGHT;
+				return true;
 			}
-			sprite %= 12;
-			sprites->DisplayFlipped("LUCARIO", x, y, attackFrames.at(sprite));
-			break;
-		case AURA_SPHERE_LEFT:
-			sprite = 12 + (frame % 4);
+			sprite %= ATTACK_SPRITES;
 			sprites->Display("LUCARIO", x, y, attackFrames.at(sprite));
 			break;
-		case AURA_SPHERE_RIGHT:
-			sprite = 12 + (frame % 4);
+		case AURA_SPHERE_LEFT:
+			sprite = ATTACK_SPRITES + (frame / FRAME_RATE % AURA_FRAMES);
 			sprites->DisplayFlipped("LUCARIO", x, y, attackFrames.at(sprite));
+			break;
+		case AURA_SPHERE_RIGHT:
+			sprite = ATTACK_SPRITES + (frame / FRAME_RATE % AURA_FRAMES);
+			sprites->Display("LUCARIO", x, y, attackFrames.at(sprite));
 			break;
 		default:
 			sprites->Display("LUCARIO", x, y, standFrames.at(sprite));
 	}
-	return state;
+	return false;
 }
 
 }
