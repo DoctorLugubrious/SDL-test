@@ -22,7 +22,7 @@ AnimCharacter::AnimCharacter(ImageLibrary* init) :
 	currentSprite(STAND_RIGHT),
 	previousSprite(STAND_RIGHT),
 	sprites(init),
-	projectile(&spriteSheet),
+	projectiles(),
 	spriteSheet(init) {};
 
 //moves the character left
@@ -47,10 +47,10 @@ void AnimCharacter::Jump() {
 		yVelocity += Y_ACCELERATION;
 		jump = true;
 		if (xVelocity > 0) {
-			currentSprite = JUMP_LEFT;
+			currentSprite = JUMP_RIGHT;
 		}
 		else {
-			currentSprite = JUMP_RIGHT;
+			currentSprite = JUMP_LEFT;
 		}
 		frame = 0;
 	}
@@ -112,9 +112,13 @@ void AnimCharacter::UpdatePosition() {
 
 //Displays the current sprite
 void AnimCharacter::Display() {
-	//probably combine these later
-	projectile.Update(frame);
-	projectile.Display(frame);
+	this->UpdatePosition();
+	for (AuraSphere& projectile : projectiles) {
+		projectile.Display(frame);
+	}
+	if (!projectiles.empty() && !projectiles.back().Active()) {
+		projectiles.pop_back();
+	}
 	sprites->DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT);
 	if (spriteSheet.Display(xPos, yPos, frame, currentSprite)) {
 		FinishAnimation();
@@ -186,20 +190,26 @@ bool AnimCharacter::Collide() {
 void AnimCharacter::Attack() {
 	const int PROJECTILE_OFFSET = 10;
 	bool direction = false;
-	previousSprite = currentSprite;
 	if (currentSprite == WALK_RIGHT
 		|| currentSprite == STAND_RIGHT
 		|| currentSprite == JUMP_RIGHT
 		|| currentSprite == DUCK_RIGHT) {
+		previousSprite = currentSprite;
 		currentSprite = ATTACK_RIGHT;
 		direction = true;
+		projectiles.push_front(AuraSphere(&spriteSheet));
+		projectiles.front().Start(xPos - PROJECTILE_OFFSET, yPos, direction, previousSprite);
+		frame = 0;
 	}
-	else {
+	else if (currentSprite != ATTACK_RIGHT 
+		&& currentSprite != ATTACK_LEFT) {
+		previousSprite = currentSprite;
 		currentSprite = ATTACK_LEFT;
 		direction = false;
+		projectiles.push_front(AuraSphere(&spriteSheet));
+		projectiles.front().Start(xPos - PROJECTILE_OFFSET, yPos, direction, previousSprite);
+		frame = 0;
 	}
-		projectile.Start(xPos - PROJECTILE_OFFSET, yPos, direction, previousSprite);
-	frame = 0;
 }
 
 /* called when the character hits a floor to correct their y position to be 

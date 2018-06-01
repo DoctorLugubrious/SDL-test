@@ -25,7 +25,7 @@ Environment::Environment():
 	{
 		std::string error = "SDL_ttf could not initialize! SDL_ttf Error: ";
 		error += TTF_GetError();
-	    throw(GraphicsException(error));
+	    	throw(GraphicsException(error));
 	}	
 }
 
@@ -76,7 +76,6 @@ void Environment::gameLoop() {
 				obstacle.UpdatePosition(x, y);
 			}
 		}
-		player.UpdatePosition();
 		images.Background();
 		player.Display();
 		obstacle.Display();

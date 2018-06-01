@@ -1,19 +1,17 @@
-#ifndef ANIM_CHARACTER_DOT_H_
-#define ANIM_CHARACTER_DOT_H_
+#ifndef CHARACTER_DOT_H_
+#define CHARACTER_DOT_H_
 
 #include <string>
-#include <list>
-
-#include "ImageLibrary.h"
-#include "CharacterSpriteSheet.h"
-#include "AuraSphere.h"
+#include "constants.h"
+#include "SpriteSheet.h"
+#include "StaticEntity.h"
 
 namespace game {
 
 /*
- * The animated character class is the playable character for the game.
+ * The character class is the abstract base class for anything that's a character.
  **********************************************************************
- ***AnimCharacter(ImageLibrary*)
+ ***Character(ImageLibrary*)
  ***	Initializes the data. Requires a game::ImageLibrary pointer to display images.
  ***MoveRight()
  ***	Called whenever the player is moving right. Accelerates the player each time
@@ -35,37 +33,35 @@ namespace game {
  ***	The player shoots a projectile and plays an attacking animation
  */
 
-class AnimCharacter {
+class Character {
 public:
-	AnimCharacter(ImageLibrary*);
+	Character();
 	void MoveRight();
 	void MoveLeft();
-	void Jump();
-	void Idle();
-	void Duck();
-	void Display();
 	void Attack();
+	void Idle();
+	virtual void Display();
+	virtual ~Character() {};
+	virtual int GetYAcceleration() = 0;
+	virtual int GetXAcceleration() = 0;
+	virtual int GetGravity() = 0;
 private:
 	bool Collide();
 	void Floor(int height);
-	void FinishAnimation();
+	void Wall(int position);
+	void Ceiling(int height);
 	void UpdatePosition();
-
-	bool jump;
 
 	int xPos;
 	int yPos;
 	int xVelocity;
 	int yVelocity;
 	size_t frame;
+
 	CharacterState currentSprite;
 	CharacterState previousSprite;
 
-	ImageLibrary* sprites;
-	
-	std::list<AuraSphere> projectiles;
-
-	CharacterSpriteSheet spriteSheet;
+	SpriteSheet* sprites;
 
 };
 }

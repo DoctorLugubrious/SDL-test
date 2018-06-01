@@ -15,6 +15,8 @@
  ***	Updates the position given the frame number of the current animation.
  ***Display(int frame)
  ***	Displays the aura sphere at the currrent position given the frame of the animation.
+ ***bool Active()
+ ***	returns true if the AuraSphere is active
  */
 
 namespace game {
@@ -22,10 +24,18 @@ class AuraSphere {
 public:
 	AuraSphere(CharacterSpriteSheet*);
 	void Start(int x, int y, bool left, CharacterState state);
-	void Update(int frame);
 	void Display(int frame);
+	bool Active();
+	bool operator==(const AuraSphere& toCompare) {
+		return (xPos == toCompare.xPos 
+			&& yPos == toCompare.yPos
+			&& frame == toCompare.frame);  
+	}
 private:
+	void Update(int frame);
+
 	bool active;
+	bool started;
 	bool direction;	
 
 	int xPos;
