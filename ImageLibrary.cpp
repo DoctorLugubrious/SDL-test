@@ -21,6 +21,7 @@ namespace game {
 		images["BACKGROUND"] = Texture("gameSprites/TestBackground.png", *screenRenderer, 
 			{0, 0, WINDOW_WIDTH, WINDOW_HEIGHT});	
 		images["LUCARIO"] = Texture("gameSprites/lucarioGrid.png", *screenRenderer, {0, 0, 0, 0});
+		images["BIDOOF"] = Texture("gameSprites/bidoofGrid.png", *screenRenderer, {0, 0, 0, 0});
 		images["PLATFORM"] = Texture("gameSprites/platform.png", *screenRenderer,
 			{WINDOW_WIDTH/2, WINDOW_HEIGHT/2 + PLATFORM_OFFSET, PLATFORM_WIDTH, PLATFORM_HEIGHT});	
 	}	

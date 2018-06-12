@@ -12,7 +12,7 @@ const int SPEED = 20;
 */
 AuraSphere::AuraSphere(CharacterSpriteSheet* init):
 	active(false), 
-	started(true),
+	started(false),
 	direction(true),
 	xPos(0),
 	yPos(0),
@@ -39,8 +39,8 @@ void AuraSphere::Start(int x, int y, bool left, CharacterState state) {
 /* Renders the Aura Sphere on the current renderer
 */ 
 void AuraSphere::Display(int frame) {
-	this->Update(frame);
 	if (!started && frame < delay) { return; }
+	this->Update(frame);
 	started = true;
 	if (xPos <= X_MIN || xPos >= X_LIMIT) {
 		active = false;

@@ -35,33 +35,43 @@ namespace game {
 
 class Character {
 public:
-	Character();
-	void MoveRight();
-	void MoveLeft();
-	void Attack();
-	void Idle();
+	Character(ImageLibrary&, SpriteSheet&);
+	Character(const Character& toCopy);
+	virtual void MoveRight();
+	virtual void MoveLeft();
+	virtual void Attack() = 0;
+	virtual void Idle();
 	virtual void Display();
 	virtual ~Character() {};
+	int GetX() {return xPos;};
+	int GetY() {return yPos;};
+protected:
 	virtual int GetYAcceleration() = 0;
 	virtual int GetXAcceleration() = 0;
 	virtual int GetGravity() = 0;
-private:
-	bool Collide();
-	void Floor(int height);
-	void Wall(int position);
-	void Ceiling(int height);
-	void UpdatePosition();
+	virtual int GetHeight() = 0;
+	virtual int GetWidth() = 0;
+	CharacterState currentSprite;
+	CharacterState previousSprite;
+	bool jump;
 
 	int xPos;
 	int yPos;
 	int xVelocity;
 	int yVelocity;
 	size_t frame;
+private:
+	bool Collide();
+	void Floor(int height);
+	void Wall(int position);
+	void Ceiling(int height);
+	void UpdatePosition();
+	void FinishAnimation();
 
-	CharacterState currentSprite;
-	CharacterState previousSprite;
 
-	SpriteSheet* sprites;
+
+	SpriteSheet& sprites;
+	ImageLibrary& library;
 
 };
 }

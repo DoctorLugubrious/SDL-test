@@ -17,9 +17,10 @@ const int ERROR = -1;
 
 //Environment default constructor. May throw a GraphicsException object
 Environment::Environment():
-	player(&images),
+	player(images, enemies),
 	obstacle(&images),
-	images() {
+	images(),
+	enemies(images, player) {
 	 //Initialize SDL_ttf
 	if( TTF_Init() == ERROR )
 	{
@@ -78,6 +79,7 @@ void Environment::gameLoop() {
 		}
 		images.Background();
 		player.Display();
+		enemies.Display(player.GetX(), player.GetY());
 		obstacle.Display();
 		images.Render();	
 	}	

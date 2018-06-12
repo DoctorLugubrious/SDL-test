@@ -5,6 +5,8 @@
 #include "ImageLibrary.h"
 #include "constants.h"
 
+#include <iostream>
+
 namespace game {
 /*SpriteSheet is a class for displaying frames of a character 
  *and animating them.
@@ -19,7 +21,7 @@ class SpriteSheet {
 public:
 	SpriteSheet(ImageLibrary& init): sprites(init) {};
 	virtual bool Display(int x, int y, int frame, CharacterState state) = 0;
-	virtual ~SpriteSheet();
+	virtual ~SpriteSheet() {};
 private:
 	ImageLibrary& sprites;
 };

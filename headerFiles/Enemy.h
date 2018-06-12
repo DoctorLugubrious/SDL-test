@@ -1,22 +1,19 @@
-#ifndef ANIM_CHARACTER_DOT_H_
-#define ANIM_CHARACTER_DOT_H_
+#ifndef ENEMY_DOT_H_
+#define ENEMY_CHARACTER_DOT_H_
 
 #include <string>
-#include <list>
 
 #include "ImageLibrary.h"
-#include "CharacterSpriteSheet.h"
-#include "AuraSphere.h"
+#include "EnemySpriteSheet.h"
 #include "Character.h"
-#include "EnemyHorde.h"
 
 namespace game {
 
 /*
- * The animated character class is the playable character for the game.
+ * The enemy class is the enemies for the game.
  **********************************************************************
- ***AnimCharacter(ImageLibrary&, EnemyHorde&)
- ***	Initializes the data. Requires a game::ImageLibrary reference to display images.
+ ***Enemy(ImageLibrary*)
+ ***	Initializes the data. Requires a game::ImageLibrary pointer to display images.
  ***MoveRight()
  ***	Called whenever the player is moving right. Accelerates the player each time
  ***	it is called until its momentum is stopped. Displays the running animation
@@ -34,29 +31,26 @@ namespace game {
  ***Display()
  ***	Writes the sprite of the current animation at the current location to the renderer.
  ***Attack()
- ***	The player shoots a projectile and plays an attacking animation
+ ***	Jumps, dealing damage
  */
 
-class AnimCharacter: public Character {
+class Enemy: public Character {
 public:
-	AnimCharacter(ImageLibrary&, EnemyHorde&);
-	void Jump();
-	void Duck();
-	void Display();
+	Enemy(ImageLibrary&);
+	Enemy(const Enemy& toCopy):	
+		Character(toCopy.sprites, spriteSheet),
+		sprites(toCopy.sprites),
+		spriteSheet(sprites) {};
 	void Attack();
 private:
-	int GetXAcceleration() {return X_ACCELERATION;};	
+	int GetXAcceleration() {return 1;};	
 	int GetYAcceleration() {return Y_ACCELERATION;};	
 	int GetGravity() {return GRAVITY;};	
-	int GetHeight() {return SPRITE_HEIGHT;};
-	int GetWidth() {return STAND_SPRITE_WIDTH;};
-	
+	int GetHeight() {return 38;}
+	int GetWidth() {return 46;}
 	ImageLibrary& sprites;
-	EnemyHorde& enemies;
 	
-	std::list<AuraSphere> projectiles;
-
-	CharacterSpriteSheet spriteSheet;
+	EnemySpriteSheet spriteSheet;
 
 };
 }

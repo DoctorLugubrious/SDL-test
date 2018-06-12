@@ -9,6 +9,7 @@
 #include "AnimatedCharacter.h"
 #include "ImageLibrary.h"
 #include "Platform.h"
+#include "EnemyHorde.h"
 
 namespace game {
 /*the Environment class runs the game loop. 
@@ -31,6 +32,7 @@ private:
 	AnimCharacter player;	
 	Platform obstacle;
 	ImageLibrary images;
+	EnemyHorde enemies;
 };
 }
 #endif
