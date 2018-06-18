@@ -28,6 +28,7 @@ private:
 	std::vector<SDL_Rect> walkFrames;
 	std::vector<SDL_Rect> standFrames;
 	std::vector<SDL_Rect> attackFrames;	
+	std::vector<SDL_Rect> hurtFrames;	
 };
 }
 

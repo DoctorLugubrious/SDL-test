@@ -86,6 +86,10 @@ bool EnemySpriteSheet::Display(int x, int y, int frame, CharacterState state) {
 			sprite %= ATTACK_FRAMES;
 			sprites.DisplayFlipped("BIDOOF", x, y, attackFrames.at(sprite));
 			break;
+		case HURT_RIGHT:
+			return true;
+		case HURT_LEFT:
+			return true;
 		default:
 			sprite %= STAND_FRAMES;
 			sprites.Display("BIDOOF", x, y, standFrames.at(sprite));

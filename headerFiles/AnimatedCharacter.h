@@ -45,6 +45,7 @@ public:
 	void Display();
 	void Attack();
 private:
+	int GetXSpeed() { return X_VELOCITY_MAX; };
 	int GetXAcceleration() {return X_ACCELERATION;};	
 	int GetYAcceleration() {return Y_ACCELERATION;};	
 	int GetGravity() {return GRAVITY;};	

@@ -1,5 +1,5 @@
 #ifndef ENEMY_DOT_H_
-#define ENEMY_CHARACTER_DOT_H_
+#define ENEMY_DOT_H_
 
 #include <string>
 
@@ -7,8 +7,10 @@
 #include "EnemySpriteSheet.h"
 #include "Character.h"
 
+
 namespace game {
 
+class AnimCharacter;
 /*
  * The enemy class is the enemies for the game.
  **********************************************************************
@@ -42,7 +44,9 @@ public:
 		sprites(toCopy.sprites),
 		spriteSheet(sprites) {};
 	void Attack();
+	void Attack(AnimCharacter& player);
 private:
+	int GetXSpeed() { return 5; };
 	int GetXAcceleration() {return 1;};	
 	int GetYAcceleration() {return Y_ACCELERATION;};	
 	int GetGravity() {return GRAVITY;};	

@@ -9,6 +9,7 @@ const int DUCK_FRAMES = 1;
 const int WALK_FRAMES = 8;
 const int STAND_FRAMES = 8;
 const int ATTACK_FRAMES = 16;
+const int HURT_FRAMES = 7;
 
 const int ATTACK_SPRITES = 12;
 const int AURA_FRAMES = 4;
@@ -20,7 +21,8 @@ CharacterSpriteSheet::CharacterSpriteSheet(ImageLibrary& init):
 	duckFrames(DUCK_FRAMES),
 	walkFrames(WALK_FRAMES),
 	standFrames(STAND_FRAMES),
-	attackFrames(ATTACK_FRAMES) {
+	attackFrames(ATTACK_FRAMES),
+	hurtFrames(HURT_FRAMES) {
 
 	SDL_Rect test = {0, 0, 0, SPRITE_HEIGHT};
 
@@ -58,6 +60,13 @@ CharacterSpriteSheet::CharacterSpriteSheet(ImageLibrary& init):
 	for(size_t i = 0; i < attackFrames.size(); ++i) {
 		test.x = WALK_SPRITE_WIDTH * i;
 		attackFrames.at(i) = test;
+	}	
+	////////////////////////////////
+	//Set clips for attacking animation
+	test.y += SPRITE_HEIGHT;		
+	for(size_t i = 0; i < hurtFrames.size(); ++i) {
+		test.x = WALK_SPRITE_WIDTH * i;
+		hurtFrames.at(i) = test;
 	}	
 	////////////////////////////////
 }
@@ -129,6 +138,24 @@ bool CharacterSpriteSheet::Display(int x, int y, int frame, CharacterState state
 		case AURA_SPHERE_RIGHT:
 			sprite = ATTACK_SPRITES + (frame / FRAME_RATE % AURA_FRAMES);
 			sprites.Display("LUCARIO", x, y, attackFrames.at(sprite));
+			break;
+		case HURT_LEFT:
+			if (sprite >= hurtFrames.size()) {
+				sprites.DisplayFlipped("LUCARIO", x, y, hurtFrames.at(HURT_FRAMES - 1));
+				return true;
+			}
+			else {
+				sprites.DisplayFlipped("LUCARIO", x, y, hurtFrames.at(sprite));
+			}
+			break;
+		case HURT_RIGHT:
+			if (sprite >= hurtFrames.size()) {
+				sprites.Display("LUCARIO", x, y, hurtFrames.at(HURT_FRAMES - 1));
+				return true;
+			}
+			else {
+				sprites.Display("LUCARIO", x, y, hurtFrames.at(sprite));
+			}
 			break;
 		default:
 			sprites.Display("LUCARIO", x, y, standFrames.at(sprite));

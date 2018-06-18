@@ -53,22 +53,22 @@ void Environment::gameLoop() {
 				switch(event.key.keysym.sym) {
 					case SDLK_UP:
 						player.Jump();
-					break;
+						break;
 					case SDLK_LEFT:
 						player.MoveLeft();
-					break;
+						break;
 					case SDLK_RIGHT:
 						player.MoveRight();
-					break;
+						break;
 					case SDLK_DOWN:
 						player.Duck();
-					break;
+						break;
 					case SDLK_SPACE:
 						player.Attack();
-					break;
+						break;
 					default:
 						player.Idle();
-					break;
+						break;
 				}
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN) {

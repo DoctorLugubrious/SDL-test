@@ -31,6 +31,8 @@ public:
 			&& yPos == toCompare.yPos
 			&& frame == toCompare.frame);  
 	}
+	int GetX() { return xPos; };
+	int GetY() { return yPos + 30; };
 private:
 	void Update(int frame);
 

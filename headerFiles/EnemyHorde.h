@@ -2,7 +2,7 @@
 #define ENEMY_HORDE_DOT_H_
 
 #include <list>
-
+#include <time.h>
 #include "Enemy.h"
 
 namespace game {
@@ -22,13 +22,18 @@ class AnimCharacter;
 class EnemyHorde {
 public:
 	EnemyHorde(ImageLibrary& initImage, AnimCharacter& initPlayer):
+		hordeCompleted(0),
 		numKills(0),
-		nextWaveSize(1),
+		nextWaveSize(0),
 		images(initImage),
-		player(initPlayer) {};
+		player(initPlayer) {
+			srand(time(0));
+		};
 	void Display(int x, int y);
 	bool AttackAt(int x, int y);
 private:
+	int hordeCompleted;
+	
 	int numKills;
 
 	int nextWaveSize;

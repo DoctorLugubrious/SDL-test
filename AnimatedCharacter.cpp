@@ -52,6 +52,7 @@ void AnimCharacter::Duck() {
 void AnimCharacter::Display() {
 	for (AuraSphere& projectile : projectiles) {
 		projectile.Display(frame);
+		enemies.AttackAt(projectile.GetX(), projectile.GetY());
 	}
 	if (!projectiles.empty() && !projectiles.back().Active()) {
 		projectiles.pop_back();

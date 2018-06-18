@@ -31,6 +31,10 @@ namespace game {
  ***	Writes the sprite of the current animation at the current location to the renderer.
  ***Attack()
  ***	The player shoots a projectile and plays an attacking animation
+ ***IsIn(int, int)
+ ***	returns true if the given coordinate is in the character 
+ ***SetPos(int, int)
+ ***	sets the initial position
  */
 
 class Character {
@@ -45,7 +49,12 @@ public:
 	virtual ~Character() {};
 	int GetX() {return xPos;};
 	int GetY() {return yPos;};
+	void Die();
+	bool Dead() { return reallyDead; };
+	bool IsIn(int, int);
+	void SetPos(int, int);
 protected:
+	virtual int GetXSpeed() = 0;
 	virtual int GetYAcceleration() = 0;
 	virtual int GetXAcceleration() = 0;
 	virtual int GetGravity() = 0;
@@ -54,7 +63,8 @@ protected:
 	CharacterState currentSprite;
 	CharacterState previousSprite;
 	bool jump;
-
+	bool dead;
+	bool reallyDead;
 	int xPos;
 	int yPos;
 	int xVelocity;

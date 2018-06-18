@@ -1,31 +1,56 @@
-#include "EnemyHorde.h"
-#include "AnimatedCharacter.h"
 #include <iostream>
+#include <sstream>
+
+#include "AnimatedCharacter.h"
+#include "EnemyHorde.h"
+#include "constants.h"
 namespace game {
 void EnemyHorde::Display(int x, int y) {
+	std::ostringstream os;
+	os << "Kills: " << numKills;
+	images.DisplayText(os.str(), WINDOW_WIDTH, 30);
 	if (theHorde.empty()) {
-		theHorde.push_back(Enemy(images));
+		hordeCompleted = 0;
+		nextWaveSize++;
 	}
-	for (Enemy& enemy : theHorde) {
-		int diff = enemy.GetX() - player.GetX();
+	if (theHorde.size() < nextWaveSize && hordeCompleted != nextWaveSize) {
+		theHorde.push_back(Enemy(images));
+		theHorde.back().SetPos(rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT);
+		++hordeCompleted;
+	}
+	auto it = theHorde.begin();
+	for (; it != theHorde.end(); ++it) {
+		if (it->Dead()) {
+			auto temp = it;
+			temp--;
+			theHorde.erase(it);
+			it = temp;
+			++numKills;
+			continue;
+		}
+		int diff = it->GetX() - player.GetX();
 		if (diff < -60) {
-			enemy.MoveRight();
+			it->MoveRight();
 		}
 		else if (diff > 60) {
-			enemy.MoveLeft();
+			it->MoveLeft();
 		}
 		else {
-			enemy.Attack();
+			it->Attack(player);
 		}
-		enemy.Display();
+		it->Display();
 	}
 }
 
 bool EnemyHorde::AttackAt(int x, int y) {
-	//for enemy in horde
-		//if hit, 
+	for(Enemy& enemy: theHorde) {
+		if (enemy.IsIn(x,y)) {
+			enemy.Die();
+			return true;
+		}
 			//remove from horde
 			//return true
+	}
 	return false;
 }
 

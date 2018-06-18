@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Enemy.h"
+#include "AnimatedCharacter.h"
 using std::cout;
 using std::endl;
 
@@ -29,6 +30,13 @@ void Enemy::Attack() {
 		previousSprite = currentSprite;
 		currentSprite = ATTACK_LEFT;
 		frame = 0;
+	}
+}
+
+void Enemy::Attack(AnimCharacter& player) {
+	Attack();
+	if (player.IsIn(xPos, yPos)) {
+		player.Die();
 	}
 }
 

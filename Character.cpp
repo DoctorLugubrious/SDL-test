@@ -9,6 +9,8 @@ Character::Character(ImageLibrary& initLibrary, SpriteSheet& sheet):
 	currentSprite(STAND_RIGHT),
 	previousSprite(STAND_RIGHT),
 	jump(false),
+	dead(false),
+	reallyDead(false),
 	xPos(0),
 	yPos(0),
 	xVelocity(0),
@@ -21,6 +23,8 @@ Character::Character(const Character& toCopy):
 	currentSprite(STAND_RIGHT),
 	previousSprite(STAND_RIGHT),
 	jump(false),
+	dead(false),
+	reallyDead(false),
 	xPos(0),
 	yPos(0),
 	xVelocity(0),
@@ -167,11 +171,11 @@ void Character::UpdatePosition(){
 	else if (currentSprite == WALK_RIGHT) {
 		xVelocity += GetXAcceleration();
 	}
-	if (xVelocity > X_VELOCITY_MAX) {
-		xVelocity = X_VELOCITY_MAX;
+	if (xVelocity > GetXSpeed()) {
+		xVelocity = GetXSpeed();
 	}
-	if (xVelocity < -X_VELOCITY_MAX) {
-		xVelocity = -X_VELOCITY_MAX;
+	if (xVelocity < -GetXSpeed()) {
+		xVelocity = -GetXSpeed();
 	}	
 	xPos += xVelocity;
 	yPos -= yVelocity;
@@ -184,9 +188,20 @@ void Character::UpdatePosition(){
 /* Displays the sprite sheet of the character
  */
 void Character::Display(){
+	if (reallyDead) {
+		return;
+	}
+	if (dead) {
+		currentSprite = HURT_RIGHT;
+	}
 	this->UpdatePosition();
 	if (sprites.Display(xPos, yPos, frame, currentSprite)) {
-		FinishAnimation();
+		if (!dead) {
+			FinishAnimation();
+		}
+		else {
+			reallyDead = true;
+		}
 	}
 }
 /* finishes a temporary action
@@ -194,6 +209,32 @@ void Character::Display(){
 void Character::FinishAnimation() {
 	std::swap(currentSprite, previousSprite);
 }
+
+/* returns true if x, y is in the area
+ */
+bool Character::IsIn(int x, int y) {
+	if (x > xPos
+	 && y > yPos 
+	 && x < xPos + GetWidth()
+	 && y < yPos + GetHeight()) {
+		return true;
+	}
+	return false;
+}
+
+/* Sets the x and y coordinates
+*/
+void Character::SetPos(int x, int y) {
+	xPos = x;
+	yPos = y;
+}
+
+/* called when the character dies
+*/
+void Character::Die() {
+	currentSprite = HURT_RIGHT;
+	dead = true;
+ };
 
 
 }

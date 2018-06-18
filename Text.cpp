@@ -1,6 +1,8 @@
 #include "Text.h"
 #include "Image.h"
 #include "Exceptions.h"
+#include "constants.h"
+
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
@@ -81,6 +83,10 @@ namespace game {
 	//displays the texture on the current surface
 	void Text::Display(int x, int y) {
 		SDL_Rect area = {x, y, width, height};
+		if (x < 0) { area.x = 0; }
+		else if (x + area.w > WINDOW_WIDTH) { area.x = WINDOW_WIDTH - area.w; }
+		if (y < 0) { area.y = 0; }
+		else if (y + area.h > WINDOW_HEIGHT) { area.y = WINDOW_HEIGHT - area.h; }
 		SDL_RenderCopy(thisRenderer, theText, NULL, &area);
 	}
 
