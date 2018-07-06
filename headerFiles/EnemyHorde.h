@@ -3,6 +3,8 @@
 
 #include <list>
 #include <time.h>
+#include <iostream>
+
 #include "Enemy.h"
 
 namespace game {
@@ -31,12 +33,13 @@ public:
 		};
 	void Display(int x, int y);
 	bool AttackAt(int x, int y);
+	void Write(const std::string& file) const;
 private:
-	int hordeCompleted;
+	size_t hordeCompleted;
 	
-	int numKills;
+	size_t numKills;
 
-	int nextWaveSize;
+	size_t nextWaveSize;
 
 	ImageLibrary& images;
 	AnimCharacter& player;

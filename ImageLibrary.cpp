@@ -24,6 +24,17 @@ namespace game {
 		images["BIDOOF"] = Texture("gameSprites/bidoofGrid.png", *screenRenderer, {0, 0, 0, 0});
 		images["PLATFORM"] = Texture("gameSprites/platform.png", *screenRenderer,
 			{WINDOW_WIDTH/2, WINDOW_HEIGHT/2 + PLATFORM_OFFSET, PLATFORM_WIDTH, PLATFORM_HEIGHT});	
+		images["LOGO"] = Texture("gameSprites/logo.png", *screenRenderer, {0, 0, 495, 200});
+		images["START_BUTTON"] = Texture("gameSprites/startButton.png", *screenRenderer, {0, 0, 300, 100});
+		images["START_BUTTON_PRESSED"] = Texture("gameSprites/startButtonPressed.png", *screenRenderer, {0, 0, 300, 100});
+		images["OPTIONS_BUTTON"] = Texture("gameSprites/optionsButton.png", *screenRenderer, {0, 0, 300, 100});
+		images["OPTIONS_BUTTON_PRESSED"] = Texture("gameSprites/optionsButtonPressed.png", *screenRenderer, {0, 0, 300, 100});
+		images["QUIT_BUTTON"] = Texture("gameSprites/quitButton.png", *screenRenderer, {0, 0, 300, 100});
+		images["QUIT_BUTTON_PRESSED"] = Texture("gameSprites/quitButtonPressed.png", *screenRenderer, {0, 0, 300, 100});
+		images["START"] = Texture("gameSprites/play.png", *screenRenderer, {0, 0, 130, 130});
+		images["GEAR"] = Texture("gameSprites/gear.png", *screenRenderer, {0, 0, 130, 130});
+		images["QUIT"] = Texture("gameSprites/quit.png", *screenRenderer, {0, 0, 130, 130});
+		images["START_ANIM"] = Texture("gameSprites/playAnim.png", *screenRenderer, {0, 0, 0, 0});
 	}	
 
 	/*

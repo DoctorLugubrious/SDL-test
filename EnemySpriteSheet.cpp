@@ -68,7 +68,7 @@ bool EnemySpriteSheet::Display(int x, int y, int frame, CharacterState state) {
 		case STAND_RIGHT:
 			sprites.DisplayFlipped("BIDOOF", x, y, standFrames.back());
 			break;
-		case ATTACK_LEFT:
+		case DUCK_ATTACK_LEFT:
 			sprite = (frame / ATTACK_FRAME_RATE);
 			if (sprite > ATTACK_FRAMES - 1) {
 				this->Display(x, y, frame, STAND_LEFT);
@@ -77,7 +77,7 @@ bool EnemySpriteSheet::Display(int x, int y, int frame, CharacterState state) {
 			sprite %= ATTACK_FRAMES;
 			sprites.Display("BIDOOF", x, y, attackFrames.at(sprite));
 			break;
-		case ATTACK_RIGHT:
+		case DUCK_ATTACK_RIGHT:
 			sprite = (frame / ATTACK_FRAME_RATE);
 			if (sprite > ATTACK_FRAMES - 1) {
 				this->Display(x, y, frame, STAND_RIGHT);

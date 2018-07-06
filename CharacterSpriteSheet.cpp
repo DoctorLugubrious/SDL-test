@@ -10,6 +10,8 @@ const int WALK_FRAMES = 8;
 const int STAND_FRAMES = 8;
 const int ATTACK_FRAMES = 16;
 const int HURT_FRAMES = 7;
+const int DUCK_ATTACK_FRAMES = 5;
+const int AIR_ATTACK_FRAMES = 8;
 
 const int ATTACK_SPRITES = 12;
 const int AURA_FRAMES = 4;
@@ -22,7 +24,9 @@ CharacterSpriteSheet::CharacterSpriteSheet(ImageLibrary& init):
 	walkFrames(WALK_FRAMES),
 	standFrames(STAND_FRAMES),
 	attackFrames(ATTACK_FRAMES),
-	hurtFrames(HURT_FRAMES) {
+	hurtFrames(HURT_FRAMES),
+	duckAttackFrames(DUCK_ATTACK_FRAMES),
+	airAttackFrames(AIR_ATTACK_FRAMES) {
 
 	SDL_Rect test = {0, 0, 0, SPRITE_HEIGHT};
 
@@ -62,11 +66,25 @@ CharacterSpriteSheet::CharacterSpriteSheet(ImageLibrary& init):
 		attackFrames.at(i) = test;
 	}	
 	////////////////////////////////
-	//Set clips for attacking animation
+	//Set clips for hurt animation
 	test.y += SPRITE_HEIGHT;		
 	for(size_t i = 0; i < hurtFrames.size(); ++i) {
 		test.x = WALK_SPRITE_WIDTH * i;
 		hurtFrames.at(i) = test;
+	}	
+	////////////////////////////////
+	//Set clips for attack animation
+	test.y += SPRITE_HEIGHT;		
+	for(size_t i = 0; i < duckAttackFrames.size(); ++i) {
+		test.x = WALK_SPRITE_WIDTH * i;
+		duckAttackFrames.at(i) = test;
+	}	
+	////////////////////////////////
+	//Set clips for attack animation
+	test.y += SPRITE_HEIGHT;		
+	for(size_t i = 0; i < airAttackFrames.size(); ++i) {
+		test.x = WALK_SPRITE_WIDTH * i;
+		airAttackFrames.at(i) = test;
 	}	
 	////////////////////////////////
 }
@@ -113,7 +131,7 @@ bool CharacterSpriteSheet::Display(int x, int y, int frame, CharacterState state
 				sprites.Display("LUCARIO", x, y, jumpFrames.at(sprite));
 			}
 			break;
-		case ATTACK_LEFT:
+		case RANGED_ATTACK_LEFT:
 			sprite = (frame / ATTACK_FRAME_RATE);
 			if (sprite > ATTACK_SPRITES - 1) {
 				this->Display(x, y, frame, STAND_LEFT);
@@ -122,7 +140,7 @@ bool CharacterSpriteSheet::Display(int x, int y, int frame, CharacterState state
 			sprite %= ATTACK_SPRITES;
 			sprites.DisplayFlipped("LUCARIO", x, y, attackFrames.at(sprite));
 			break;
-		case ATTACK_RIGHT:
+		case RANGED_ATTACK_RIGHT:
 			sprite = (frame / ATTACK_FRAME_RATE);
 			if (sprite > ATTACK_SPRITES - 1) {
 				this->Display(x, y, frame, STAND_RIGHT);
@@ -156,6 +174,42 @@ bool CharacterSpriteSheet::Display(int x, int y, int frame, CharacterState state
 			else {
 				sprites.Display("LUCARIO", x, y, hurtFrames.at(sprite));
 			}
+			break;
+		case DUCK_ATTACK_LEFT:
+			sprite = (frame / ATTACK_FRAME_RATE);
+			if (sprite > DUCK_ATTACK_FRAMES - 1) {
+				this->Display(x, y, frame, STAND_LEFT);
+				return true;
+			}
+			sprite %= DUCK_ATTACK_FRAMES;
+			sprites.DisplayFlipped("LUCARIO", x, y, duckAttackFrames.at(sprite));
+			break;
+		case DUCK_ATTACK_RIGHT:
+			sprite = (frame / ATTACK_FRAME_RATE);
+			if (sprite > DUCK_ATTACK_FRAMES - 1) {
+				this->Display(x, y, frame, STAND_RIGHT);
+				return true;
+			}
+			sprite %= DUCK_ATTACK_FRAMES;
+			sprites.Display("LUCARIO", x, y, duckAttackFrames.at(sprite));
+			break;
+		case AIR_ATTACK_LEFT:
+			sprite = (frame / ATTACK_FRAME_RATE);
+			if (sprite > AIR_ATTACK_FRAMES - 1) {
+				this->Display(x, y, frame, JUMP_LEFT);
+				return true;
+			}
+			sprite %= AIR_ATTACK_FRAMES;
+			sprites.DisplayFlipped("LUCARIO", x, y, airAttackFrames.at(sprite));
+			break;
+		case AIR_ATTACK_RIGHT:
+			sprite = (frame / ATTACK_FRAME_RATE);
+			if (sprite > DUCK_ATTACK_FRAMES - 1) {
+				this->Display(x, y, frame, JUMP_RIGHT);
+				return true;
+			}
+			sprite %= AIR_ATTACK_FRAMES;
+			sprites.Display("LUCARIO", x, y, airAttackFrames.at(sprite));
 			break;
 		default:
 			sprites.Display("LUCARIO", x, y, standFrames.at(sprite));

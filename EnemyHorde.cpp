@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 #include "AnimatedCharacter.h"
 #include "EnemyHorde.h"
@@ -48,12 +49,25 @@ bool EnemyHorde::AttackAt(int x, int y) {
 			enemy.Die();
 			return true;
 		}
-			//remove from horde
-			//return true
 	}
 	return false;
 }
 
+void EnemyHorde::Write(const std::string& filename) const {
+	std::ifstream is(filename);
+	size_t pastHighScore = 0;
+	is >> pastHighScore;
+	is.close();
+
+	std::ofstream os(filename, std::ios_base::trunc);
+	if (numKills > pastHighScore) {
+		os << numKills << std::endl;
+	}
+	else {
+		os << pastHighScore << std::endl;
+	}
+	os.close();
+}
 
 }
 

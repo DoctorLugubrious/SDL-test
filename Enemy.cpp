@@ -17,25 +17,23 @@ Enemy::Enemy(ImageLibrary& init) :
 /* Attacks
 */
 void Enemy::Attack() {
-	if (currentSprite == WALK_RIGHT
-		|| currentSprite == STAND_RIGHT
-		|| currentSprite == JUMP_RIGHT
-		|| currentSprite == DUCK_RIGHT) {
-		previousSprite = currentSprite;
-		currentSprite = ATTACK_RIGHT;
-		frame = 0;
+	if (GetState() == WALK_RIGHT
+		|| GetState() == STAND_RIGHT
+		|| GetState() == JUMP_RIGHT
+		|| GetState() == DUCK_RIGHT) {
+		SetState(DUCK_ATTACK_RIGHT, GetState());
+		ResetFrame();
 	}
-	else if (currentSprite != ATTACK_RIGHT 
-		&& currentSprite != ATTACK_LEFT) {
-		previousSprite = currentSprite;
-		currentSprite = ATTACK_LEFT;
-		frame = 0;
+	else if (GetState() != DUCK_ATTACK_RIGHT 
+		&& GetState() != DUCK_ATTACK_LEFT) {
+		SetState(DUCK_ATTACK_LEFT, GetState());
+		ResetFrame();
 	}
 }
 
 void Enemy::Attack(AnimCharacter& player) {
 	Attack();
-	if (player.IsIn(xPos, yPos)) {
+	if (player.IsIn(GetX(), GetY())) {
 		player.Die();
 	}
 }

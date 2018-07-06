@@ -1,4 +1,3 @@
-//Using SDL and standard IO
 #include <iostream>
 
 #include <SDL2/SDL.h>
@@ -20,7 +19,8 @@ Environment::Environment():
 	player(images, enemies),
 	obstacle(&images),
 	images(),
-	enemies(images, player) {
+	enemies(images, player),
+	menu (images) {
 	 //Initialize SDL_ttf
 	if( TTF_Init() == ERROR )
 	{
@@ -33,7 +33,20 @@ Environment::Environment():
 //runs the game loop
 void Environment::gameLoop() {
 	bool quit = false;
+	bool start = false;
 	SDL_Event event;
+	while (!quit && !start) {
+		SDL_Delay(FRAME_RATE);
+		images.Background();
+		MenuState state = menu.Render();
+		if (state == QUIT) {
+			quit = true;
+		}
+		else if (state == START) {
+			start = true;
+		}
+		images.Render();	
+	}
 	while (!quit) {
 		SDL_Delay(FRAME_RATE);
 		while (SDL_PollEvent(&event) != 0) {	
@@ -83,6 +96,7 @@ void Environment::gameLoop() {
 		obstacle.Display();
 		images.Render();	
 	}	
+	enemies.Write("high_score.txt");
 }
 
 //Quits SDL

@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "ImageLibrary.h"
-#include "constants.h"
 #include "SpriteSheet.h"
 
 namespace game {
@@ -29,6 +28,8 @@ private:
 	std::vector<SDL_Rect> standFrames;
 	std::vector<SDL_Rect> attackFrames;	
 	std::vector<SDL_Rect> hurtFrames;	
+	std::vector<SDL_Rect> duckAttackFrames;
+	std::vector<SDL_Rect> airAttackFrames;
 };
 }
 

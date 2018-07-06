@@ -10,6 +10,7 @@
 #include "ImageLibrary.h"
 #include "Platform.h"
 #include "EnemyHorde.h"
+#include "MainMenu.h"
 
 namespace game {
 /*the Environment class runs the game loop. 
@@ -33,6 +34,7 @@ private:
 	Platform obstacle;
 	ImageLibrary images;
 	EnemyHorde enemies;
+	MainMenu menu;
 };
 }
 #endif

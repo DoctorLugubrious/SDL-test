@@ -1,11 +1,10 @@
 #ifndef SPRITE_SHEET_DOT_H_
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "ImageLibrary.h"
 #include "constants.h"
-
-#include <iostream>
 
 namespace game {
 /*SpriteSheet is a class for displaying frames of a character 

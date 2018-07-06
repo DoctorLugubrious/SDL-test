@@ -4,35 +4,34 @@
 using std::cout;
 using std::endl;
 namespace game {
-
 Character::Character(ImageLibrary& initLibrary, SpriteSheet& sheet):
-	currentSprite(STAND_RIGHT),
-	previousSprite(STAND_RIGHT),
 	jump(false),
 	dead(false),
 	reallyDead(false),
+	frame(0),
 	xPos(0),
 	yPos(0),
 	xVelocity(0),
 	yVelocity(0),
-	frame(0),
+	currentSprite(STAND_RIGHT),
+	previousSprite(STAND_RIGHT),
 	sprites(sheet),
 	library(initLibrary) {}
 
 Character::Character(const Character& toCopy):
-	currentSprite(STAND_RIGHT),
-	previousSprite(STAND_RIGHT),
 	jump(false),
 	dead(false),
 	reallyDead(false),
+	frame(0),
 	xPos(0),
 	yPos(0),
 	xVelocity(0),
 	yVelocity(0),
-	frame(0),
+	currentSprite(STAND_RIGHT),
+	previousSprite(STAND_RIGHT),
 	sprites(toCopy.sprites),
-	library(toCopy.library) {
-	}
+	library(toCopy.library) {}
+
 /* Moves the character right
  */
 void Character::MoveRight() {
@@ -233,8 +232,37 @@ void Character::SetPos(int x, int y) {
 */
 void Character::Die() {
 	currentSprite = HURT_RIGHT;
+	ResetFrame();
 	dead = true;
  };
 
+//Setters for inherited classes
+void Character::SetState(CharacterState current, CharacterState previous) {
+	currentSprite = current;
+	previousSprite = previous;
+}
+void Character::SetState(CharacterState current) {
+	currentSprite = current;
+}
+void Character::SetJump(bool newJump) {
+	jump = newJump;
+}
+void Character::SetXVelocity(int newxVelocity){
+	xVelocity = newxVelocity;
+}
+void Character::SetYVelocity(int newyVelocity){
+	yVelocity = newyVelocity;
+}
+void Character::ResetFrame() {
+	if (!dead) {
+		frame = 0;
+	}
+}
+void Character::SetDead(bool state) {
+	dead = state;
+}
+void Character::SetReallyDead(bool state){
+	reallyDead = state;
+}
 
 }

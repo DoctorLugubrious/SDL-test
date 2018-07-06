@@ -7,7 +7,6 @@
 #include "StaticEntity.h"
 
 namespace game {
-
 /*
  * The character class is the abstract base class for anything that's a character.
  **********************************************************************
@@ -35,6 +34,7 @@ namespace game {
  ***	returns true if the given coordinate is in the character 
  ***SetPos(int, int)
  ***	sets the initial position
+ ***PROTECTED
  */
 
 class Character {
@@ -60,16 +60,20 @@ protected:
 	virtual int GetGravity() = 0;
 	virtual int GetHeight() = 0;
 	virtual int GetWidth() = 0;
-	CharacterState currentSprite;
-	CharacterState previousSprite;
-	bool jump;
-	bool dead;
-	bool reallyDead;
-	int xPos;
-	int yPos;
-	int xVelocity;
-	int yVelocity;
-	size_t frame;
+	void SetState(CharacterState current, CharacterState previous);
+	void SetState(CharacterState current);
+	CharacterState GetState() {return currentSprite;};
+	CharacterState pGetState() {return previousSprite;};
+	void SetJump(bool newJump);
+	bool GetJump() {return jump;};
+	void SetXVelocity(int xVelocity);	
+	void SetYVelocity(int yVelocity);
+	int GetXVelocity() {return xVelocity;};	
+	int GetYVelocity() {return yVelocity;};
+	size_t GetFrame() {return frame;};
+	void ResetFrame();
+	void SetDead(bool state);	
+	void SetReallyDead(bool state);	
 private:
 	bool Collide();
 	void Floor(int height);
@@ -77,7 +81,16 @@ private:
 	void Ceiling(int height);
 	void UpdatePosition();
 	void FinishAnimation();
-
+	bool jump;
+	bool dead;
+	bool reallyDead;
+	size_t frame;
+	int xPos;
+	int yPos;
+	int xVelocity;
+	int yVelocity;
+	CharacterState currentSprite;
+	CharacterState previousSprite;
 
 
 	SpriteSheet& sprites;

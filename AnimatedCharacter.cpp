@@ -3,8 +3,6 @@
 
 #include "constants.h"
 #include "AnimatedCharacter.h"
-using std::cout;
-using std::endl;
 
 namespace game {
 
@@ -20,44 +18,52 @@ AnimCharacter::AnimCharacter(ImageLibrary& init, EnemyHorde& horde) :
 	spriteSheet(sprites) {};
 //lets the character jump
 void AnimCharacter::Jump() {
-	if (!Character::jump) {
-		yVelocity += Y_ACCELERATION;
-		jump = true;
-		if (xVelocity > 0) {
-			currentSprite = JUMP_RIGHT;
+	if (!GetJump()) {
+		SetYVelocity(GetYVelocity() + Y_ACCELERATION);
+		SetJump(true);
+		if (GetXVelocity() > 0) {
+			SetState(JUMP_RIGHT);
 		}
 		else {
-			currentSprite = JUMP_LEFT;
+			SetState(JUMP_LEFT);
 		}
-		frame = 0;
+		ResetFrame();
 	}
 }
 
 //ducks the character, which makes them fall faster
 void AnimCharacter::Duck() {
-	if (currentSprite == WALK_RIGHT 
-		||currentSprite == STAND_RIGHT
-		||currentSprite == DUCK_RIGHT
-		||currentSprite == JUMP_RIGHT
+	if (GetState() == WALK_RIGHT 
+		||GetState() == STAND_RIGHT
+		||GetState() == DUCK_RIGHT
+		||GetState() == JUMP_RIGHT
 	) {
-		currentSprite = DUCK_RIGHT;
+		SetState(DUCK_RIGHT);
 	}
 	else {
-		currentSprite = DUCK_LEFT;
+		SetState(DUCK_LEFT);
 	}
-	xVelocity = 0;
-	yVelocity -= GRAVITY;
+	SetXVelocity(0);
+	SetYVelocity(GetYVelocity() - GRAVITY);
 }
 //Displays the current sprite
 void AnimCharacter::Display() {
+	if (Dead()) {
+		sprites.DisplayText("GAME OVER", WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
+		return;
+	}
 	for (AuraSphere& projectile : projectiles) {
-		projectile.Display(frame);
+		projectile.Display(GetFrame());
 		enemies.AttackAt(projectile.GetX(), projectile.GetY());
 	}
 	if (!projectiles.empty() && !projectiles.back().Active()) {
 		projectiles.pop_back();
 	}
-	sprites.DisplayText("Player 1", xPos, yPos - SPRITE_HEIGHT);
+	if(GetState() == DUCK_ATTACK_LEFT
+	|| GetState() == DUCK_ATTACK_RIGHT) {
+		enemies.AttackAt(GetX(), GetY());
+	}
+	sprites.DisplayText("Player 1", GetX(), GetY() - SPRITE_HEIGHT);
 	Character::Display();
 }
 /* Shoots an aura sphere
@@ -65,25 +71,37 @@ void AnimCharacter::Display() {
 void AnimCharacter::Attack() {
 	const int PROJECTILE_OFFSET = 10;
 	bool direction = false;
-	if (currentSprite == WALK_RIGHT
-		|| currentSprite == STAND_RIGHT
-		|| currentSprite == JUMP_RIGHT
-		|| currentSprite == DUCK_RIGHT) {
-		previousSprite = currentSprite;
-		currentSprite = ATTACK_RIGHT;
+	if (GetState() == WALK_RIGHT
+		|| GetState() == STAND_RIGHT) {
+		SetState(RANGED_ATTACK_RIGHT, GetState());
 		direction = true;
 		projectiles.push_front(AuraSphere(&spriteSheet));
-		projectiles.front().Start(xPos - PROJECTILE_OFFSET, yPos, direction, previousSprite);
-		frame = 0;
+		projectiles.front().Start(GetX() - PROJECTILE_OFFSET, GetY(), direction, pGetState());
+		ResetFrame();		
 	}
-	else if (currentSprite != ATTACK_RIGHT 
-		&& currentSprite != ATTACK_LEFT) {
-		previousSprite = currentSprite;
-		currentSprite = ATTACK_LEFT;
+	else if (GetState() == DUCK_LEFT) {
+		ResetFrame();		
+		SetState(DUCK_ATTACK_LEFT, GetState());
+	}
+	else if (GetState() == DUCK_RIGHT) {
+		ResetFrame();		
+		SetState(DUCK_ATTACK_RIGHT, GetState());
+	}
+	else if (GetState() == JUMP_LEFT) {
+		ResetFrame();		
+		SetState(AIR_ATTACK_LEFT, GetState());
+	}
+	else if (GetState() == JUMP_RIGHT) {
+		ResetFrame();		
+		SetState(AIR_ATTACK_RIGHT, GetState());
+	}
+	else if (GetState() != RANGED_ATTACK_RIGHT 
+		&& GetState() != RANGED_ATTACK_LEFT) {
+		SetState(RANGED_ATTACK_LEFT, GetState());
 		direction = false;
 		projectiles.push_front(AuraSphere(&spriteSheet));
-		projectiles.front().Start(xPos - PROJECTILE_OFFSET, yPos, direction, previousSprite);
-		frame = 0;
+		projectiles.front().Start(GetX() - PROJECTILE_OFFSET, GetY(), direction, pGetState());
+		ResetFrame();		
 	}
 }
 
