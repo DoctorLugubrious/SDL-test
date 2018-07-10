@@ -5,6 +5,9 @@
 #include "AnimatedCharacter.h"
 #include "EnemyHorde.h"
 #include "constants.h"
+
+using std::ios;
+
 namespace game {
 void EnemyHorde::Display(int x, int y) {
 	std::ostringstream os;
@@ -54,17 +57,17 @@ bool EnemyHorde::AttackAt(int x, int y) {
 }
 
 void EnemyHorde::Write(const std::string& filename) const {
-	std::ifstream is(filename);
+	std::ifstream is(filename, ios::binary | ios::in);
 	size_t pastHighScore = 0;
-	is >> pastHighScore;
+	is.read(reinterpret_cast<char *>(&pastHighScore), sizeof(size_t));
 	is.close();
 
-	std::ofstream os(filename, std::ios_base::trunc);
+	std::ofstream os(filename, std::ios_base::trunc | ios::binary);
 	if (numKills > pastHighScore) {
-		os << numKills << std::endl;
+		os.write((char*)&numKills, sizeof(numKills));
 	}
 	else {
-		os << pastHighScore << std::endl;
+		os.write((char*)&pastHighScore, sizeof(pastHighScore));
 	}
 	os.close();
 }

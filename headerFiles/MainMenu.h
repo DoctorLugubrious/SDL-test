@@ -16,8 +16,10 @@ public:
 	MainMenu(ImageLibrary& images);
 	MenuState Render();
 private:
-	bool DisplayButton(std::string name);
+	bool DisplayButton(std::string name, int x, int y);
 	bool startAnimDone;
+	bool gearAnimDone;
+	bool quitAnimDone;
 	int frame;
 	std::string highScore;
 	ImageLibrary& images;

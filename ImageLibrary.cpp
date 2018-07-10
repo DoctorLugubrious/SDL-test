@@ -35,6 +35,8 @@ namespace game {
 		images["GEAR"] = Texture("gameSprites/gear.png", *screenRenderer, {0, 0, 130, 130});
 		images["QUIT"] = Texture("gameSprites/quit.png", *screenRenderer, {0, 0, 130, 130});
 		images["START_ANIM"] = Texture("gameSprites/playAnim.png", *screenRenderer, {0, 0, 0, 0});
+		images["GEAR_ANIM"] = Texture("gameSprites/gearAnim.png", *screenRenderer, {0, 0, 0, 0});
+		images["QUIT_ANIM"] = Texture("gameSprites/quitAnim.png", *screenRenderer, {0, 0, 0, 0});
 	}	
 
 	/*
